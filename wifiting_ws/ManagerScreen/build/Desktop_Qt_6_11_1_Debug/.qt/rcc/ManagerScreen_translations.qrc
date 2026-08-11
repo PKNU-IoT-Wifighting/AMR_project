@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/i18n">
+    <file alias="ManagerScreen_ko_KR.qm">/home/ubuntu/wifiting_ws/ManagerScreen/build/Desktop_Qt_6_11_1_Debug/ManagerScreen_ko_KR.qm</file>
+  </qresource>
+</RCC>
+

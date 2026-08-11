@@ -1,0 +1,3 @@
+/opt/ManagerScreen/bin/ManagerScreen
+/opt/ManagerScreen/bin/manager-screen
+/opt/ManagerScreen/bin/velocity_publisher.py

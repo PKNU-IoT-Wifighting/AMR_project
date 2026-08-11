@@ -1,0 +1,925 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1180</width>
+    <height>760</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>900</width>
+    <height>620</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>안내 로봇 관제 시스템</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QWidget#centralwidget {
+    background-color: #F3F6FA;
+    color: #172033;
+    font-family: &quot;Noto Sans CJK KR&quot;, &quot;Noto Sans KR&quot;, &quot;Sans Serif&quot;;
+}
+
+/* 헤더 */
+QLabel#titleLabel {
+    color: #172033;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+QLabel#subtitleLabel {
+    color: #778198;
+    font-size: 13px;
+}
+
+QFrame#connectionBadge {
+    background-color: #EAF8F0;
+    border: 1px solid #BFE8CE;
+    border-radius: 16px;
+}
+
+QLabel#connectionDot {
+    background-color: #22A861;
+    border-radius: 5px;
+    min-width: 10px;
+    max-width: 10px;
+    min-height: 10px;
+    max-height: 10px;
+}
+
+QLabel#connectionText {
+    color: #167345;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* 카메라 카드 */
+QFrame#cameraCard {
+    background-color: #FFFFFF;
+    border: 1px solid #E1E7F0;
+    border-radius: 18px;
+}
+
+QLabel#cameraTitleLabel {
+    color: #1B2437;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+QLabel#cameraDescriptionLabel {
+    color: #8A94A8;
+    font-size: 12px;
+}
+
+QFrame#streamBadge {
+    background-color: #FFF1F0;
+    border: 1px solid #FFD1CD;
+    border-radius: 13px;
+}
+
+QLabel#streamDot {
+    background-color: #E64940;
+    border-radius: 4px;
+    min-width: 8px;
+    max-width: 8px;
+    min-height: 8px;
+    max-height: 8px;
+}
+
+QLabel#streamStatusLabel {
+    color: #C63B34;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+QFrame#cameraViewport {
+    background-color: #111827;
+    border: 1px solid #263247;
+    border-radius: 14px;
+}
+
+QLabel#cameraViewLabel {
+    background-color: transparent;
+    border: none;
+    color: #D8DFEA;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+QLabel#cameraHintLabel {
+    color: #8792A7;
+    font-size: 12px;
+}
+
+QLabel#cameraSourceLabel {
+    color: #7A8497;
+    font-size: 12px;
+}
+
+/* 로봇 상태 정보 */
+QFrame#robotStatusPanel {
+    background-color: transparent;
+    border: none;
+}
+
+QLabel#statusPanelTitleLabel {
+    color: #1B2437;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+QLabel#statusPanelDescriptionLabel {
+    color: #8A94A8;
+    font-size: 12px;
+}
+
+QFrame#speedStatusCard,
+QFrame#batteryStatusCard,
+QFrame#temperatureStatusCard,
+QFrame#driveStatusCard {
+    background-color: #F7F9FC;
+    border: 1px solid #E2E8F1;
+    border-radius: 12px;
+}
+
+QLabel#speedTitleLabel,
+QLabel#batteryTitleLabel,
+QLabel#temperatureTitleLabel,
+QLabel#driveStatusTitleLabel {
+    color: #737E92;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+QLabel#speedValueLabel,
+QLabel#batteryValueLabel,
+QLabel#temperatureValueLabel,
+QLabel#driveStatusValueLabel {
+    color: #1C2940;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+QLabel#driveStatusValueLabel {
+    color: #247A5B;
+}
+
+/* 하단 기능 버튼 */
+QPushButton {
+    border-radius: 14px;
+    min-height: 88px;
+    padding: 10px 22px;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+QPushButton#manualMoveButton {
+    color: #245EC7;
+    background-color: #FFFFFF;
+    border: 2px solid #AFC9F8;
+}
+
+QPushButton#manualMoveButton:hover {
+    background-color: #EEF5FF;
+    border-color: #5B8FEA;
+}
+
+QPushButton#manualMoveButton:pressed {
+    background-color: #DCEAFF;
+}
+
+QPushButton#manualMoveButton:checked {
+    color: #FFFFFF;
+    background-color: #3478E5;
+    border-color: #3478E5;
+}
+
+QPushButton#manualMoveButton:checked:hover {
+    background-color: #2868CC;
+    border-color: #2868CC;
+}
+
+QPushButton#emergencyStopButton {
+    color: #FFFFFF;
+    background-color: #E5484D;
+    border: 2px solid #E5484D;
+}
+
+QPushButton#emergencyStopButton:hover {
+    background-color: #D63C42;
+    border-color: #D63C42;
+}
+
+QPushButton#emergencyStopButton:pressed {
+    background-color: #BF3137;
+    border-color: #BF3137;
+}
+
+QPushButton#logViewButton {
+    color: #216A66;
+    background-color: #FFFFFF;
+    border: 2px solid #A7DCD8;
+}
+
+QPushButton#logViewButton:hover {
+    background-color: #ECFAF8;
+    border-color: #55B7AF;
+}
+
+QPushButton#logViewButton:pressed {
+    background-color: #D7F2EF;
+}
+
+QLabel#manualCaptionLabel,
+QLabel#emergencyCaptionLabel,
+QLabel#logCaptionLabel {
+    color: #8892A5;
+    font-size: 12px;
+}</string>
+   </property>
+   <layout class="QVBoxLayout" name="rootLayout">
+    <property name="spacing">
+     <number>20</number>
+    </property>
+    <property name="leftMargin">
+     <number>34</number>
+    </property>
+    <property name="topMargin">
+     <number>28</number>
+    </property>
+    <property name="rightMargin">
+     <number>34</number>
+    </property>
+    <property name="bottomMargin">
+     <number>30</number>
+    </property>
+    <item>
+     <layout class="QHBoxLayout" name="headerLayout">
+      <property name="spacing">
+       <number>16</number>
+      </property>
+      <item>
+       <layout class="QVBoxLayout" name="titleLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="titleLabel">
+          <property name="text">
+           <string>안내 로봇 관제 시스템</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="subtitleLabel">
+          <property name="text">
+           <string>카메라 영상 확인과 주요 기능을 한 화면에서 제어합니다.</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="headerSpacer">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QFrame" name="connectionBadge">
+        <property name="minimumSize">
+         <size>
+          <width>122</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>170</width>
+          <height>34</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::NoFrame</enum>
+        </property>
+        <layout class="QHBoxLayout" name="connectionBadgeLayout">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <property name="leftMargin">
+          <number>13</number>
+         </property>
+         <property name="topMargin">
+          <number>7</number>
+         </property>
+         <property name="rightMargin">
+          <number>13</number>
+         </property>
+         <property name="bottomMargin">
+          <number>7</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="connectionDot">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="connectionText">
+           <property name="text">
+            <string>시스템 연결됨</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QFrame" name="cameraCard">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>600</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::NoFrame</enum>
+      </property>
+      <layout class="QVBoxLayout" name="cameraCardLayout">
+       <property name="spacing">
+        <number>15</number>
+       </property>
+       <property name="leftMargin">
+        <number>22</number>
+       </property>
+       <property name="topMargin">
+        <number>18</number>
+       </property>
+       <property name="rightMargin">
+        <number>22</number>
+       </property>
+       <property name="bottomMargin">
+        <number>20</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="cameraHeaderRowLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="cameraViewportRowLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QFrame" name="robotStatusPanel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>360</width>
+             <height>300</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>400</width>
+             <height>300</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Shape::NoFrame</enum>
+           </property>
+           <layout class="QVBoxLayout" name="robotStatusPanelLayout">
+            <property name="spacing">
+             <number>9</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="statusPanelTitleLabel">
+              <property name="text">
+               <string>로봇 상태</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="statusPanelDescriptionLabel">
+              <property name="text">
+               <string>현재 센서 및 주행 정보를 표시합니다.</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="speedStatusCard">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>51</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <layout class="QHBoxLayout" name="speedStatusCardLayout">
+               <property name="leftMargin">
+                <number>16</number>
+               </property>
+               <property name="topMargin">
+                <number>8</number>
+               </property>
+               <property name="rightMargin">
+                <number>16</number>
+               </property>
+               <property name="bottomMargin">
+                <number>8</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="speedTitleLabel">
+                 <property name="text">
+                  <string>속도</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="speedStatusSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="speedValueLabel">
+                 <property name="text">
+                  <string>0.0 m/s</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="batteryStatusCard">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>51</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <layout class="QHBoxLayout" name="batteryStatusCardLayout">
+               <property name="leftMargin">
+                <number>16</number>
+               </property>
+               <property name="topMargin">
+                <number>8</number>
+               </property>
+               <property name="rightMargin">
+                <number>16</number>
+               </property>
+               <property name="bottomMargin">
+                <number>8</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="batteryTitleLabel">
+                 <property name="text">
+                  <string>배터리</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="batteryStatusSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="batteryValueLabel">
+                 <property name="text">
+                  <string>100 %</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="temperatureStatusCard">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>51</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <layout class="QHBoxLayout" name="temperatureStatusCardLayout">
+               <property name="leftMargin">
+                <number>16</number>
+               </property>
+               <property name="topMargin">
+                <number>8</number>
+               </property>
+               <property name="rightMargin">
+                <number>16</number>
+               </property>
+               <property name="bottomMargin">
+                <number>8</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="temperatureTitleLabel">
+                 <property name="text">
+                  <string>온도</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="temperatureStatusSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="temperatureValueLabel">
+                 <property name="text">
+                  <string>-- °C</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="driveStatusCard">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>51</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Shape::NoFrame</enum>
+              </property>
+              <layout class="QHBoxLayout" name="driveStatusCardLayout">
+               <property name="leftMargin">
+                <number>16</number>
+               </property>
+               <property name="topMargin">
+                <number>8</number>
+               </property>
+               <property name="rightMargin">
+                <number>16</number>
+               </property>
+               <property name="bottomMargin">
+                <number>8</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="driveStatusTitleLabel">
+                 <property name="text">
+                  <string>주행 상태</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="driveStatusSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="driveStatusValueLabel">
+                 <property name="text">
+                  <string>대기 중</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="statusCameraGapSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Expanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>28</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QFrame" name="cameraViewport">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>680</width>
+             <height>400</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>680</width>
+             <height>400</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Shape::NoFrame</enum>
+           </property>
+           <layout class="QVBoxLayout" name="cameraViewportLayout">
+            <property name="spacing">
+             <number>7</number>
+            </property>
+            <property name="leftMargin">
+             <number>18</number>
+            </property>
+            <property name="topMargin">
+             <number>15</number>
+            </property>
+            <property name="rightMargin">
+             <number>18</number>
+            </property>
+            <property name="bottomMargin">
+             <number>14</number>
+            </property>
+            <item>
+             <spacer name="cameraTopSpacer">
+              <property name="orientation">
+               <enum>Qt::Orientation::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>30</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="cameraViewLabel">
+              <property name="text">
+               <string>카메라 스트림을 기다리고 있습니다</string>
+              </property>
+              <property name="scaledContents">
+               <bool>false</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="cameraHintLabel">
+              <property name="text">
+               <string>서버 연결 후 영상이 자동으로 표시됩니다.</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="cameraBottomSpacer">
+              <property name="orientation">
+               <enum>Qt::Orientation::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>30</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="cameraSourceLabel">
+              <property name="text">
+               <string>VIDEO SOURCE  ·  RASPBERRY PI CAMERA</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="actionLayout">
+      <property name="spacing">
+       <number>18</number>
+      </property>
+      <item>
+       <layout class="QVBoxLayout" name="manualActionLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="manualMoveButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>↔  수동 이동</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="manualCaptionLabel">
+          <property name="text">
+           <string>키보드 또는 조작 화면으로 로봇을 직접 이동</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="emergencyActionLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="emergencyStopButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>■  긴급 정지</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="emergencyCaptionLabel">
+          <property name="text">
+           <string>주행 중인 로봇을 즉시 정지</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="logActionLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QPushButton" name="logViewButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>▤  기록 보기</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="logCaptionLabel">
+          <property name="text">
+           <string>주행 기록, 이벤트, 경고 내역 확인</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

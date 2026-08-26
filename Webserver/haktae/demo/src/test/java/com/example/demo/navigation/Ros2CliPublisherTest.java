@@ -13,7 +13,9 @@ class Ros2CliPublisherTest {
     void buildsPoseStampedMessageWithConfiguredTopic() {
         Ros2CliPublisher publisher = new Ros2CliPublisher(new Ros2Properties(
             "/opt/ros/jazzy/bin/ros2", "/opt/ros/jazzy/setup.bash",
-            "/goal_pose", "/cmd_vel", Duration.ofSeconds(2)));
+            "/goal_pose", "/cmd_vel", false, "python3",
+            "/navigate_to_pose/_action/status", "http://127.0.0.1:8080",
+            Duration.ofSeconds(2)));
 
         List<String> command = publisher.buildGoalCommand(
             Destination.ELEVATOR,
@@ -32,7 +34,9 @@ class Ros2CliPublisherTest {
     void buildsZeroTwistCommandForConfiguredCmdVelTopic() {
         Ros2CliPublisher publisher = new Ros2CliPublisher(new Ros2Properties(
             "/opt/ros/jazzy/bin/ros2", "/opt/ros/jazzy/setup.bash",
-            "/goal_pose", "/cmd_vel", Duration.ofSeconds(2)));
+            "/goal_pose", "/cmd_vel", false, "python3",
+            "/navigate_to_pose/_action/status", "http://127.0.0.1:8080",
+            Duration.ofSeconds(2)));
 
         List<String> command = publisher.buildStopCommand();
 

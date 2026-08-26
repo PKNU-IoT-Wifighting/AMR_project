@@ -71,52 +71,59 @@ Content-Type: application/json
 
 ## Ubuntu 실행
 
-권장 방법은 서버와 브리지를 실행 스크립트로 함께 시작하는 것입니다.
+Spring Boot 서버만 실행하면 ROS 2 도착 상태 브리지도 자동으로 시작됩니다. 서버를 종료하면 브리지도 함께 종료됩니다.
 
 개발 실행:
 
 ```bash
 cd Webserver/haktae/demo
-bash run_with_ros.sh
+./gradlew bootRun
 ```
 
 이미 빌드한 JAR로 실행:
 
 ```bash
 cd Webserver/haktae/demo
-bash run_with_ros.sh java -jar build/libs/demo-0.0.1-SNAPSHOT.jar
+java -jar build/libs/demo-0.0.1-SNAPSHOT.jar
 ```
 
-스크립트는 다음 작업을 자동으로 수행합니다.
+서버 시작 과정에서 다음 작업을 자동으로 수행합니다.
 
 1. ROS 2 Jazzy 환경 불러오기
-2. `navigation_status_bridge.py` 실행
-3. Spring Boot 서버 실행
-4. 서버 종료 시 브리지 함께 종료
+2. 배포 JAR에 포함된 `navigation_status_bridge.py` 실행
+3. Nav2 도착 상태를 Spring Boot 서버에 전달
+4. 서버 종료 시 브리지 종료
 
-서버와 브리지를 별도 터미널에서 실행하려면 Spring Boot 서버를 먼저 실행한 뒤 다음 명령을 사용합니다.
-
-```bash
-source /opt/ros/jazzy/setup.bash
-cd Webserver/haktae/demo
-python3 ros/navigation_status_bridge.py
-```
-
-서버 주소나 Nav2 상태 토픽이 다르면 환경변수로 변경합니다.
+기본 설정은 다음과 같습니다.
 
 ```bash
-export WEB_SERVER_URL=http://127.0.0.1:8080
-export NAV_ACTION_STATUS_TOPIC=/navigate_to_pose/_action/status
-python3 ros/navigation_status_bridge.py
+ROS2_STATUS_BRIDGE_ENABLED=true
+ROS2_SETUP_FILE=/opt/ros/jazzy/setup.bash
+PYTHON_EXECUTABLE=python3
+WEB_SERVER_URL=http://127.0.0.1:8080
+NAV_ACTION_STATUS_TOPIC=/navigate_to_pose/_action/status
 ```
 
-통합 실행 스크립트에서도 같은 환경변수를 사용할 수 있습니다.
+서버 주소, ROS 설치 위치 또는 Nav2 상태 토픽이 다르면 서버 실행 전에 환경변수로 변경합니다.
 
 ```bash
 export ROS2_SETUP_FILE=/opt/ros/jazzy/setup.bash
+export PYTHON_EXECUTABLE=python3
 export WEB_SERVER_URL=http://127.0.0.1:8080
 export NAV_ACTION_STATUS_TOPIC=/navigate_to_pose/_action/status
-bash run_with_ros.sh
+./gradlew bootRun
+```
+
+문제 확인을 위해 브리지를 수동 실행할 때는 자동 실행을 끄고 서버를 시작합니다.
+
+```bash
+export ROS2_STATUS_BRIDGE_ENABLED=false
+./gradlew bootRun
+
+# 별도 터미널
+source /opt/ros/jazzy/setup.bash
+cd Webserver/haktae/demo
+python3 ros/navigation_status_bridge.py
 ```
 
 ## 확인 명령

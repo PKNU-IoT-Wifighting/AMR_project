@@ -10,6 +10,10 @@ public record Ros2Properties(
     String setupFile,
     String goalTopic,
     String cmdVelTopic,
+    boolean statusBridgeEnabled,
+    String pythonExecutable,
+    String actionStatusTopic,
+    String serverUrl,
     Duration publishTimeout
 ) {
 }

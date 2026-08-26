@@ -29,3 +29,9 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.named('processResources') {
+    from('ros') {
+        into 'ros'
+    }
+}

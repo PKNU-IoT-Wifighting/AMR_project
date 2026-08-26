@@ -2,7 +2,7 @@
 
 작성일: 2026-08-26  
 담당 영역: 안내 로봇 사용자 디스플레이 UI  
-현재 통합 브랜치: `codex/user-ui-integration`
+현재 통합 브랜치: `Web_server`
 
 이 문서는 사용자 UI가 어떻게 만들어지고 서버에 연결되었는지 기록하고, HTML·CSS·JavaScript를 처음 공부할 때 참고하기 위해 작성했습니다.
 
@@ -424,7 +424,7 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 ## 12. 인텔리제이에서 확인하는 방법
 
 1. `C:/SourceBank/AMR_project`를 프로젝트로 열기
-2. Git 브랜치를 `codex/user-ui-integration`으로 선택하기
+2. Git 브랜치를 `Web_server`로 선택하기
 3. `Webserver/haktae/demo`를 Gradle 프로젝트로 불러오기
 4. Spring Boot 애플리케이션 실행하기
 5. 브라우저에서 `http://localhost:8080/` 접속하기
@@ -432,7 +432,7 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 
 ## 13. 2026-08-26 작업 기록
 
-- `Web_server`에서 `codex/user-ui-integration` 브랜치 생성
+- `Web_server` 브랜치의 haktae Spring Boot 서버에 사용자 UI 통합
 - Jaewook의 기존 사용자 UI 디자인을 haktae Spring Boot 서버에 적용
 - 목적지 ID와 전송 API를 새 서버 규격에 맞춤
 - `manualMode` 수동제어 화면 연결
@@ -442,9 +442,9 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 - Spring Boot 서버에 `idle`, `moving`, `arrived` 주행 상태 관리 추가
 - 안내 취소 시 `/cmd_vel`에 0 속도를 발행하도록 ROS 2 연결 추가
 - Nav2 액션 성공 상태를 서버에 보고하는 `navigation_status_bridge.py` 추가
-- Spring Boot 서버와 ROS 도착 브리지를 함께 실행하는 `run_with_ros.sh` 추가
+- Spring Boot 서버 시작 시 ROS 도착 브리지가 자동으로 실행되고 서버 종료 시 함께 종료되도록 변경
 - 목적지 선택, 안내 시작, 수동모드, 도착 화면, 초기화 동작을 브라우저에서 검증
 - JavaScript 문법 검사 통과
-- Gradle 테스트는 Gradle 9.5.1 다운로드 시간 초과로 실행하지 못함
+- Gradle 자동 테스트와 배포 JAR 생성 확인 완료
 
 이후 작업이 생기면 날짜별로 이 아래에 변경 이유, 수정한 파일, 확인 결과를 계속 추가합니다.

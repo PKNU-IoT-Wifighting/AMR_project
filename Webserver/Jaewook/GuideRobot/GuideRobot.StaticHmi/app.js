@@ -1,9 +1,9 @@
 "use strict";
 
 const destinations = new Map([
-    ["restroom", { id: "restroom", name: "화장실 앞", icon: "🚻" }],
-    ["room_301", { id: "room_301", name: "강의실 301호", icon: "🏫" }],
-    ["room_302", { id: "room_302", name: "강의실 302호", icon: "🏫" }],
+    ["toilet", { id: "toilet", name: "화장실 앞", icon: "🚻" }],
+    ["301", { id: "301", name: "강의실 301호", icon: "🏫" }],
+    ["302", { id: "302", name: "강의실 302호", icon: "🏫" }],
     ["elevator", { id: "elevator", name: "엘리베이터 앞", icon: "🛗" }]
 ]);
 
@@ -14,11 +14,9 @@ const state = {
     hasArrived: false,
     isManualMode: false,
     isSendingCommand: false,
-    isControlSending: false,
     isConfirmationOpen: false,
     commandMessage: "",
-    commandSucceeded: false,
-    controlError: ""
+    commandSucceeded: false
 };
 
 const elements = {
@@ -37,7 +35,6 @@ const elements = {
     journeyPulse: document.querySelector("#journey-pulse"),
     journeyMessageText: document.querySelector("#journey-message-text"),
     secondaryButton: document.querySelector("#secondary-button"),
-    controlError: document.querySelector("#control-error"),
     confirmationBackdrop: document.querySelector("#confirmation-backdrop"),
     confirmationDialog: document.querySelector(".confirmation-dialog"),
     confirmationIcon: document.querySelector("#confirmation-icon"),
@@ -91,15 +88,8 @@ function render() {
         elements.journeyMessageText.textContent = state.hasArrived
             ? "목적지에 도착했습니다."
             : "안내 중입니다. 로봇을 따라와 주세요.";
-        elements.secondaryButton.textContent = state.hasArrived
-            ? "확인"
-            : state.isControlSending
-                ? "취소 요청 중..."
-                : "안내 취소";
-        elements.secondaryButton.classList.toggle("arrival-confirm-button", state.hasArrived);
-        elements.secondaryButton.disabled = state.isManualMode || (!state.hasArrived && state.isControlSending);
-        elements.controlError.hidden = !state.controlError;
-        elements.controlError.textContent = state.controlError;
+        elements.secondaryButton.hidden = !state.hasArrived;
+        elements.secondaryButton.disabled = state.isManualMode;
     }
 
     elements.confirmationBackdrop.hidden = !state.isConfirmationOpen || destination === null;
@@ -144,11 +134,11 @@ function closeConfirmation() {
     elements.startButton.focus();
 }
 
-async function postCommand(payload) {
-    const response = await fetch("/api/command", {
+async function postNavigation(destination) {
+    const response = await fetch("/api/navigation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ destination })
     });
 
     if (!response.ok) {
@@ -167,13 +157,12 @@ async function startGuidance() {
     render();
 
     try {
-        await postCommand({ destination: state.selectedDestination.id });
+        await postNavigation(state.selectedDestination.id);
         state.isConfirmationOpen = false;
         state.isGuiding = true;
         state.hasArrived = false;
         state.commandSucceeded = true;
         state.commandMessage = "안내 명령을 서버에 전달했습니다.";
-        state.controlError = "";
     } catch (error) {
         state.commandSucceeded = false;
         state.commandMessage = error instanceof Error ? error.message : "서버와의 접속을 확인해 주세요.";
@@ -183,31 +172,9 @@ async function startGuidance() {
     }
 }
 
-async function handleSecondaryAction() {
-    if (state.isManualMode) {
-        return;
-    }
-
-    if (state.hasArrived) {
+function confirmArrival() {
+    if (!state.isManualMode && state.hasArrived) {
         resetGuidanceUi();
-        return;
-    }
-
-    if (state.isControlSending) {
-        return;
-    }
-
-    state.isControlSending = true;
-    state.controlError = "";
-    render();
-
-    try {
-        await postCommand({ command: "cancel" });
-        resetGuidanceUi();
-    } catch (error) {
-        state.controlError = error instanceof Error ? error.message : "서버와의 접속을 확인해 주세요.";
-        state.isControlSending = false;
-        render();
     }
 }
 
@@ -216,10 +183,8 @@ function resetGuidanceUi() {
     state.isGuiding = false;
     state.hasArrived = false;
     state.isSendingCommand = false;
-    state.isControlSending = false;
     state.isConfirmationOpen = false;
     state.commandMessage = "";
-    state.controlError = "";
     render();
 }
 
@@ -231,7 +196,7 @@ async function refreshStatus() {
         }
 
         const status = await response.json();
-        const manualMode = status.manual_mode === true;
+        const manualMode = status.manualMode === true;
         let changed = !state.isStatusReady || manualMode !== state.isManualMode;
 
         state.isStatusReady = true;
@@ -243,11 +208,9 @@ async function refreshStatus() {
 
         if (state.isGuiding
             && !state.hasArrived
-            && typeof status.status === "string"
-            && status.status.toLowerCase() === "arrived") {
+            && typeof status.navigationStatus === "string"
+            && status.navigationStatus.toLowerCase() === "arrived") {
             state.hasArrived = true;
-            state.isControlSending = false;
-            state.controlError = "";
             changed = true;
         }
 
@@ -266,7 +229,7 @@ for (const button of elements.destinationButtons) {
 elements.startButton.addEventListener("click", openConfirmation);
 elements.confirmationCancel.addEventListener("click", closeConfirmation);
 elements.confirmationStart.addEventListener("click", startGuidance);
-elements.secondaryButton.addEventListener("click", handleSecondaryAction);
+elements.secondaryButton.addEventListener("click", confirmArrival);
 elements.confirmationBackdrop.addEventListener("click", closeConfirmation);
 elements.confirmationDialog.addEventListener("click", event => event.stopPropagation());
 document.addEventListener("keydown", event => {

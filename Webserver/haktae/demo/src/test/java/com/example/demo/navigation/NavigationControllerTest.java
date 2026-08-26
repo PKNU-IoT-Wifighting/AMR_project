@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(NavigationController.class)
-@Import(ManualControlState.class)
+@Import({ManualControlState.class, NavigationState.class})
 class NavigationControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -32,17 +32,22 @@ class NavigationControllerTest {
     @Autowired
     private ManualControlState manualControlState;
 
+    @Autowired
+    private NavigationState navigationState;
+
     @BeforeEach
     void configureProperties() {
         when(properties.goalTopic()).thenReturn("/goal_pose");
         manualControlState.setActive(false);
+        navigationState.markIdle();
     }
 
     @Test
     void exposesStatusForQtConnectionCheck() throws Exception {
         mockMvc.perform(get("/api/status"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.status").value("ok"));
+            .andExpect(jsonPath("$.status").value("ok"))
+            .andExpect(jsonPath("$.navigationStatus").value("idle"));
     }
 
     @Test
@@ -55,6 +60,10 @@ class NavigationControllerTest {
             .andExpect(jsonPath("$.x").value(-9.861356735229492));
 
         verify(publisher).publishGoal(Destination.ROOM_301);
+
+        mockMvc.perform(get("/api/status"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.navigationStatus").value("moving"));
     }
 
     @Test
@@ -110,5 +119,34 @@ class NavigationControllerTest {
                 .content("{\"command\":\"stop\",\"manualMode\":false}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.manualMode").value(false));
+    }
+
+    @Test
+    void publishesZeroVelocityWhenGuidanceIsCancelled() throws Exception {
+        navigationState.markMoving();
+
+        mockMvc.perform(post("/api/command")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"command\":\"cancel\"}"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.command").value("cancel"))
+            .andExpect(jsonPath("$.navigationStatus").value("idle"));
+
+        verify(publisher).publishStop();
+    }
+
+    @Test
+    void acceptsArrivalStatusReportedByRosBridge() throws Exception {
+        navigationState.markMoving();
+
+        mockMvc.perform(post("/api/navigation/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"status\":\"arrived\"}"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.navigationStatus").value("arrived"));
+
+        mockMvc.perform(get("/api/status"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.navigationStatus").value("arrived"));
     }
 }

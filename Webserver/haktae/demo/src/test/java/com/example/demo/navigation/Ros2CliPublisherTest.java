@@ -2,37 +2,44 @@ package com.example.demo.navigation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 class Ros2CliPublisherTest {
-    @TempDir
-    Path tempDirectory;
-
     @Test
-    void buildsPoseStampedMessageWithConfiguredTopic() throws Exception {
-        Path output = tempDirectory.resolve("arguments.txt");
-        Path fakeRos2 = tempDirectory.resolve("ros2");
-        Files.writeString(fakeRos2, "#!/bin/sh\nprintf '%s\\n' \"$@\" > '"
-            + output + "'\n");
-        fakeRos2.toFile().setExecutable(true);
-
+    void buildsPoseStampedMessageWithConfiguredTopic() {
         Ros2CliPublisher publisher = new Ros2CliPublisher(new Ros2Properties(
-            fakeRos2.toString(), "/opt/ros/jazzy/setup.bash",
-            "/goal_pose", Duration.ofSeconds(2)));
+            "/opt/ros/jazzy/bin/ros2", "/opt/ros/jazzy/setup.bash",
+            "/goal_pose", "/cmd_vel", Duration.ofSeconds(2)));
 
-        publisher.publishGoal(Destination.ELEVATOR);
+        List<String> command = publisher.buildGoalCommand(
+            Destination.ELEVATOR,
+            Instant.ofEpochSecond(1_787_308_794L, 689_250_237L));
 
-        String arguments = Files.readString(output);
+        String arguments = String.join("\n", command);
         assertThat(arguments)
             .contains("topic\npub\n--once\n/goal_pose\ngeometry_msgs/msg/PoseStamped")
             .contains("frame_id: map")
             .contains("x: -21.816679000854492")
             .contains("y: 2.625699043273926")
             .contains("w: 1.0");
+    }
+
+    @Test
+    void buildsZeroTwistCommandForConfiguredCmdVelTopic() {
+        Ros2CliPublisher publisher = new Ros2CliPublisher(new Ros2Properties(
+            "/opt/ros/jazzy/bin/ros2", "/opt/ros/jazzy/setup.bash",
+            "/goal_pose", "/cmd_vel", Duration.ofSeconds(2)));
+
+        List<String> command = publisher.buildStopCommand();
+
+        String arguments = String.join("\n", command);
+        assertThat(arguments)
+            .contains("topic\npub\n--once\n/cmd_vel\ngeometry_msgs/msg/Twist")
+            .contains("linear: {x: 0.0, y: 0.0, z: 0.0}")
+            .contains("angular: {x: 0.0, y: 0.0, z: 0.0}");
     }
 }

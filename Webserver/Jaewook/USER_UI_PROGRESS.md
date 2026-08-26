@@ -86,11 +86,13 @@ http://서버주소:8080/
 | 수동모드 필드 | `manual_mode` | `manualMode` |
 | 도착 상태 | `status: "arrived"` | `navigationStatus: "arrived"` |
 
-### 4단계: 안내 취소 제거
+### 4단계: 안내 취소 제거 후 복원
 
-새 서버에는 로봇 이동을 취소하는 기능이 아직 없습니다. 웹 화면만 먼저 초기화하면 로봇은 계속 움직일 수 있어 위험하므로 안내 취소 버튼과 취소 요청 코드를 제거했습니다.
+새 서버에 로봇 이동 취소 기능이 없을 때는 웹 화면만 초기화되는 위험을 막기 위해 안내 취소를 잠시 제거했습니다. 이후 서버가 취소 요청을 받으면 `/cmd_vel` 토픽에 `linear.x: 0.0`, `angular.z: 0.0`을 발행하기로 정하면서 버튼을 다시 복원했습니다.
 
-현재는 서버가 실제 도착 상태를 보낸 뒤에만 `확인` 버튼이 표시됩니다. 이 버튼은 도착 안내를 확인하고 목적지 선택 화면으로 돌아가는 역할만 합니다.
+웹은 `POST /api/command`에 `{"command":"cancel"}`을 보냅니다. 서버가 성공 응답을 보낸 경우에만 목적지 선택 화면으로 돌아가며, 실패하면 안내 중 화면을 유지하고 오류를 표시합니다.
+
+로봇이 도착한 뒤에는 같은 버튼이 `확인`으로 바뀝니다. 이때는 서버 명령을 보내지 않고 목적지 선택 화면으로 돌아갑니다.
 
 ## 4. 현재 화면 동작 순서
 
@@ -112,6 +114,18 @@ GET /api/status를 1초마다 확인
 navigationStatus가 arrived이면 도착 화면 표시
   ↓
 사용자가 확인 버튼을 누르면 목적지 선택 화면으로 복귀
+```
+
+안내 중 사용자가 취소한 경우의 흐름:
+
+```text
+안내 취소 클릭
+  ↓
+POST /api/command에 {"command":"cancel"} 전송
+  ↓
+서버가 로봇 정지 토픽 발행
+  ↓
+서버 성공 응답 후 목적지 선택 화면으로 복귀
 ```
 
 ## 5. 서버와 주고받는 데이터
@@ -171,6 +185,30 @@ GET /api/status
 - `arrived`: 목적지에 도착함
 
 현재 서버에 `navigationStatus`가 없어도 웹 오류는 발생하지 않습니다. 다만 도착 화면으로 자동 전환되지 않고 안내 중 화면을 유지합니다.
+
+호환성을 위해 웹은 다음 응답을 모두 도착으로 인식합니다.
+
+- `navigationStatus: "arrived"`
+- `navigation_status: "arrived"`
+- `status: "arrived"`
+- `arrived: true`
+
+### 안내 취소 요청
+
+```http
+POST /api/command
+Content-Type: application/json
+```
+
+```json
+{
+  "command": "cancel"
+}
+```
+
+Spring Boot 서버는 이 명령을 받으면 설정된 `/cmd_vel` 토픽에 `linear.x: 0.0`, `angular.z: 0.0`인 `Twist` 메시지를 한 번 발행하고 주행 상태를 `idle`로 변경합니다.
+
+속도 0 발행은 즉시 정지 명령이지만 Nav2 목표 자체를 취소하는 것은 아닙니다. Nav2가 다시 속도 명령을 발행하는 환경에서는 액션 목표 취소 기능을 추가로 검토해야 합니다.
 
 ## 6. JavaScript에서 공부할 부분
 
@@ -242,8 +280,11 @@ window.setInterval(refreshStatus, 1000);
 ### 조건문으로 도착 확인
 
 ```javascript
-if (typeof status.navigationStatus === "string"
-    && status.navigationStatus.toLowerCase() === "arrived") {
+const hasArrived = [status.navigationStatus, status.navigation_status, status.status]
+    .some(value => typeof value === "string" && value.toLowerCase() === "arrived")
+    || status.arrived === true;
+
+if (hasArrived) {
     // 도착 화면 표시
 }
 ```
@@ -346,7 +387,7 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 도착 화면 표시
 ```
 
-서버가 도착 신호를 받는 부분은 서버 담당자의 작업이고, 사용자 UI는 받은 값을 화면에 표현하는 역할만 담당합니다.
+`haktae/demo/ros/navigation_status_bridge.py`가 Nav2의 `/navigate_to_pose/_action/status`를 구독하고 최신 목표의 `STATUS_SUCCEEDED`를 감지하면 서버에 `arrived`를 보고합니다. 사용자 UI는 서버가 제공하는 값을 화면에 표현합니다.
 
 ## 10. 현재 구현 상태
 
@@ -355,12 +396,17 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 - [x] 새 서버의 `/api/navigation`으로 목적지 ID 전송
 - [x] 수동모드 전체 화면 표시 및 자동 해제
 - [x] 안내 중 화면 표시
-- [x] 안내 취소 기능 제거
-- [x] `navigationStatus: "arrived"` 수신 시 도착 화면 표시
+- [x] 안내 취소 버튼 및 서버 요청 복원
+- [x] 취소 성공 후에만 목적지 선택 화면으로 복귀
+- [x] 취소 실패 시 안내 화면 유지 및 오류 표시
+- [x] 여러 도착 응답 형식을 인식해 도착 화면 표시
 - [x] 도착 확인 후 초기 화면 복귀
 - [x] 서버 상태에 `navigationStatus`가 없어도 오류 없이 동작
 - [x] 브라우저 동작 테스트
-- [ ] 서버에서 실제 ROS 2 도착 신호를 받아 `navigationStatus` 갱신
+- [x] 서버에서 `{"command":"cancel"}`을 처리하고 정지 토픽 발행
+- [x] 서버에 `navigationStatus` 상태 저장 및 도착 보고 API 추가
+- [x] Nav2 성공 상태를 서버에 전달하는 ROS 2 브리지 추가
+- [ ] 실제 로봇 환경에서 Nav2 상태 토픽 이름과 메시지 수신 확인
 - [ ] 실제 로봇과 통합 테스트
 
 ## 11. 추천 학습 순서
@@ -390,8 +436,13 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 - Jaewook의 기존 사용자 UI 디자인을 haktae Spring Boot 서버에 적용
 - 목적지 ID와 전송 API를 새 서버 규격에 맞춤
 - `manualMode` 수동제어 화면 연결
-- 안내 취소 기능 제거
-- `navigationStatus` 도착 화면 연결 준비
+- 서버 기능이 준비되기 전 안내 취소 기능을 제거
+- 서버의 정지 토픽 발행 계획에 맞춰 안내 취소 버튼과 요청을 다시 복원
+- `navigationStatus`, `navigation_status`, `status`, `arrived` 도착 응답 호환 처리
+- Spring Boot 서버에 `idle`, `moving`, `arrived` 주행 상태 관리 추가
+- 안내 취소 시 `/cmd_vel`에 0 속도를 발행하도록 ROS 2 연결 추가
+- Nav2 액션 성공 상태를 서버에 보고하는 `navigation_status_bridge.py` 추가
+- Spring Boot 서버와 ROS 도착 브리지를 함께 실행하는 `run_with_ros.sh` 추가
 - 목적지 선택, 안내 시작, 수동모드, 도착 화면, 초기화 동작을 브라우저에서 검증
 - JavaScript 문법 검사 통과
 - Gradle 테스트는 Gradle 9.5.1 다운로드 시간 초과로 실행하지 못함

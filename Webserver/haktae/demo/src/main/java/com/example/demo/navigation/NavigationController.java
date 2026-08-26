@@ -23,15 +23,18 @@ public class NavigationController {
     private final Ros2Publisher publisher;
     private final Ros2Properties properties;
     private final ManualControlState manualControlState;
+    private final NavigationState navigationState;
 
     public NavigationController(
         Ros2Publisher publisher,
         Ros2Properties properties,
-        ManualControlState manualControlState
+        ManualControlState manualControlState,
+        NavigationState navigationState
     ) {
         this.publisher = publisher;
         this.properties = properties;
         this.manualControlState = manualControlState;
+        this.navigationState = navigationState;
     }
 
     @GetMapping("/status")
@@ -40,6 +43,7 @@ public class NavigationController {
             "status", "ok",
             "goalTopic", properties.goalTopic(),
             "manualMode", manualControlState.isActive(),
+            "navigationStatus", navigationState.getStatus(),
             "timestamp", Instant.now().toString());
     }
 
@@ -57,12 +61,33 @@ public class NavigationController {
         }
         Destination destination = Destination.fromId(request.destination());
         publisher.publishGoal(destination);
+        navigationState.markMoving();
         return DispatchResponse.from(destination, properties.goalTopic());
+    }
+
+    @PostMapping("/navigation/status")
+    public Map<String, Object> updateNavigationStatus(
+        @Valid @RequestBody NavigationStatusRequest request
+    ) {
+        navigationState.setStatus(request.status());
+        return Map.of(
+            "status", "ok",
+            "navigationStatus", navigationState.getStatus());
     }
 
     // Qt mainwindow.cpp compatibility endpoint.
     @PostMapping("/command")
     public Map<String, Object> command(@Valid @RequestBody CommandRequest request) {
+        if ("cancel".equalsIgnoreCase(request.command())) {
+            publisher.publishStop();
+            navigationState.markIdle();
+            return Map.of(
+                "status", "ok",
+                "command", "cancel",
+                "navigationStatus", navigationState.getStatus(),
+                "message", "navigation cancelled and stop velocity published");
+        }
+
         if ("stop".equalsIgnoreCase(request.command())) {
             // In the Qt protocol, "stop" means that manual control is in
             // progress. It is an acknowledgement, not a /cmd_vel command.
@@ -103,6 +128,9 @@ public class NavigationController {
     }
 
     public record CommandRequest(@NotBlank String command, Boolean manualMode) {
+    }
+
+    public record NavigationStatusRequest(@NotBlank String status) {
     }
 
     public record DestinationView(String id, String name, double x, double y, double z) {

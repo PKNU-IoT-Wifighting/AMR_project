@@ -3,7 +3,6 @@ package com.example.demo.navigation;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class Ros2CliPublisher implements Ros2Publisher {
     private static final String POSE_STAMPED_TYPE = "geometry_msgs/msg/PoseStamped";
+    private static final String TWIST_TYPE = "geometry_msgs/msg/Twist";
+    private static final String STOP_MESSAGE = "{linear: {x: 0.0, y: 0.0, z: 0.0}, "
+        + "angular: {x: 0.0, y: 0.0, z: 0.0}}";
 
     private final Ros2Properties properties;
 
@@ -21,7 +23,15 @@ public class Ros2CliPublisher implements Ros2Publisher {
 
     @Override
     public void publishGoal(Destination destination) {
-        Instant now = Instant.now();
+        run(properties.goalTopic(), buildGoalCommand(destination, Instant.now()));
+    }
+
+    @Override
+    public void publishStop() {
+        run(properties.cmdVelTopic(), buildStopCommand());
+    }
+
+    List<String> buildGoalCommand(Destination destination, Instant now) {
         String message = String.format(
             java.util.Locale.ROOT,
             "{header: {stamp: {sec: %d, nanosec: %d}, frame_id: map}, "
@@ -30,15 +40,22 @@ public class Ros2CliPublisher implements Ros2Publisher {
             now.getEpochSecond(), now.getNano(),
             destination.x(), destination.y(), destination.z());
 
-        publish(properties.goalTopic(), POSE_STAMPED_TYPE, message);
+        return buildPublishCommand(properties.goalTopic(), POSE_STAMPED_TYPE, message);
     }
 
-    private void publish(String topic, String messageType, String message) {
-        List<String> command = new ArrayList<>(List.of(
+    List<String> buildStopCommand() {
+        return buildPublishCommand(properties.cmdVelTopic(), TWIST_TYPE, STOP_MESSAGE);
+    }
+
+    private List<String> buildPublishCommand(String topic, String messageType, String message) {
+        return List.of(
             "/bin/bash", "-c",
             "source \"$1\" && shift && exec \"$@\"",
             "ros2-jazzy", properties.setupFile(), properties.executable(),
-            "topic", "pub", "--once", topic, messageType, message));
+            "topic", "pub", "--once", topic, messageType, message);
+    }
+
+    private void run(String topic, List<String> command) {
         Process process = null;
         try {
             process = new ProcessBuilder(command)

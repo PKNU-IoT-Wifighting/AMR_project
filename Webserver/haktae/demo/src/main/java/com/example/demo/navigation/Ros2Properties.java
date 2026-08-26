@@ -9,6 +9,7 @@ public record Ros2Properties(
     String executable,
     String setupFile,
     String goalTopic,
+    String cmdVelTopic,
     Duration publishTimeout
 ) {
 }

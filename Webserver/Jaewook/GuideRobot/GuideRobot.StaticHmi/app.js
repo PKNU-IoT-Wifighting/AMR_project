@@ -14,9 +14,11 @@ const state = {
     hasArrived: false,
     isManualMode: false,
     isSendingCommand: false,
+    isControlSending: false,
     isConfirmationOpen: false,
     commandMessage: "",
-    commandSucceeded: false
+    commandSucceeded: false,
+    controlError: ""
 };
 
 const elements = {
@@ -35,6 +37,7 @@ const elements = {
     journeyPulse: document.querySelector("#journey-pulse"),
     journeyMessageText: document.querySelector("#journey-message-text"),
     secondaryButton: document.querySelector("#secondary-button"),
+    controlError: document.querySelector("#control-error"),
     confirmationBackdrop: document.querySelector("#confirmation-backdrop"),
     confirmationDialog: document.querySelector(".confirmation-dialog"),
     confirmationIcon: document.querySelector("#confirmation-icon"),
@@ -88,8 +91,16 @@ function render() {
         elements.journeyMessageText.textContent = state.hasArrived
             ? "목적지에 도착했습니다."
             : "안내 중입니다. 로봇을 따라와 주세요.";
-        elements.secondaryButton.hidden = !state.hasArrived;
-        elements.secondaryButton.disabled = state.isManualMode;
+        elements.secondaryButton.hidden = false;
+        elements.secondaryButton.textContent = state.hasArrived
+            ? "확인"
+            : state.isControlSending
+                ? "취소 요청 중..."
+                : "안내 취소";
+        elements.secondaryButton.classList.toggle("arrival-confirm-button", state.hasArrived);
+        elements.secondaryButton.disabled = state.isManualMode || (!state.hasArrived && state.isControlSending);
+        elements.controlError.hidden = !state.controlError;
+        elements.controlError.textContent = state.controlError;
     }
 
     elements.confirmationBackdrop.hidden = !state.isConfirmationOpen || destination === null;
@@ -148,6 +159,20 @@ async function postNavigation(destination) {
     }
 }
 
+async function postControlCommand(command) {
+    const response = await fetch("/api/command", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ command })
+    });
+
+    if (!response.ok) {
+        throw new Error(response.status >= 500
+            ? "서버와의 접속을 확인해 주세요."
+            : "서버가 안내 취소 요청을 처리하지 못했습니다.");
+    }
+}
+
 async function startGuidance() {
     if (state.isManualMode || !state.selectedDestination || state.isSendingCommand) {
         return;
@@ -163,6 +188,7 @@ async function startGuidance() {
         state.hasArrived = false;
         state.commandSucceeded = true;
         state.commandMessage = "안내 명령을 서버에 전달했습니다.";
+        state.controlError = "";
     } catch (error) {
         state.commandSucceeded = false;
         state.commandMessage = error instanceof Error ? error.message : "서버와의 접속을 확인해 주세요.";
@@ -172,9 +198,31 @@ async function startGuidance() {
     }
 }
 
-function confirmArrival() {
-    if (!state.isManualMode && state.hasArrived) {
+async function handleSecondaryAction() {
+    if (state.isManualMode) {
+        return;
+    }
+
+    if (state.hasArrived) {
         resetGuidanceUi();
+        return;
+    }
+
+    if (state.isControlSending) {
+        return;
+    }
+
+    state.isControlSending = true;
+    state.controlError = "";
+    render();
+
+    try {
+        await postControlCommand("cancel");
+        resetGuidanceUi();
+    } catch (error) {
+        state.controlError = error instanceof Error ? error.message : "서버와의 접속을 확인해 주세요.";
+        state.isControlSending = false;
+        render();
     }
 }
 
@@ -183,8 +231,10 @@ function resetGuidanceUi() {
     state.isGuiding = false;
     state.hasArrived = false;
     state.isSendingCommand = false;
+    state.isControlSending = false;
     state.isConfirmationOpen = false;
     state.commandMessage = "";
+    state.controlError = "";
     render();
 }
 
@@ -206,11 +256,14 @@ async function refreshStatus() {
             changed = true;
         }
 
-        if (state.isGuiding
-            && !state.hasArrived
-            && typeof status.navigationStatus === "string"
-            && status.navigationStatus.toLowerCase() === "arrived") {
+        const hasArrived = [status.navigationStatus, status.navigation_status, status.status]
+            .some(value => typeof value === "string" && value.toLowerCase() === "arrived")
+            || status.arrived === true;
+
+        if (state.isGuiding && !state.hasArrived && hasArrived) {
             state.hasArrived = true;
+            state.isControlSending = false;
+            state.controlError = "";
             changed = true;
         }
 
@@ -229,7 +282,7 @@ for (const button of elements.destinationButtons) {
 elements.startButton.addEventListener("click", openConfirmation);
 elements.confirmationCancel.addEventListener("click", closeConfirmation);
 elements.confirmationStart.addEventListener("click", startGuidance);
-elements.secondaryButton.addEventListener("click", confirmArrival);
+elements.secondaryButton.addEventListener("click", handleSecondaryAction);
 elements.confirmationBackdrop.addEventListener("click", closeConfirmation);
 elements.confirmationDialog.addEventListener("click", event => event.stopPropagation());
 document.addEventListener("keydown", event => {

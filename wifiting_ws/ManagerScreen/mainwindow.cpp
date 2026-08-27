@@ -2,16 +2,17 @@
 #include "ui_mainwindow.h"
 
 #include <QImage>
+#include <QHash>
 #include <QCoreApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonParseError>
 #include <QKeyEvent>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QProcess>
 #include <QResizeEvent>
-#include <QSignalBlocker>
 #include <QTimer>
 
 namespace {
@@ -20,9 +21,8 @@ constexpr int kVideoHeight = 360;
 constexpr int kBytesPerPixel = 3;
 constexpr qsizetype kFrameSize =
     kVideoWidth * kVideoHeight * kBytesPerPixel;
-
-// Real robot mode: use /cmd_vel and the REST server on this computer.
-constexpr bool kLocalManualTestMode = false;
+const QString kServerBaseUrl = QStringLiteral("http://127.0.0.1:8080");
+const QString kVelocityTopic = QStringLiteral("/cmd_vel_watchdog_input");
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,13 +31,14 @@ MainWindow::MainWindow(QWidget *parent)
     , cameraProcess(new QProcess(this))
     , manualModePublisher(new QProcess(this))
     , velocityPublisher(new QProcess(this))
+    , robotStatusMonitor(new QProcess(this))
     , networkManager(new QNetworkAccessManager(this))
-    , serverBaseUrl(qEnvironmentVariable(
-          "MANAGER_SERVER_URL",
-          QStringLiteral("http://127.0.0.1:8080")))
-    , offlineMode(qEnvironmentVariableIntValue("MANAGER_OFFLINE_MODE") == 1)
 {
     ui->setupUi(this);
+
+    // Keep the most important state first: robot, speed, then destination.
+    ui->robotStatusPanelLayout->removeWidget(ui->robotConnectionStatusCard);
+    ui->robotStatusPanelLayout->insertWidget(2, ui->robotConnectionStatusCard);
 
     // Use the whole dark viewport for the incoming 16:9 video.
     ui->cameraHintLabel->hide();
@@ -55,28 +56,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->manualMoveButton, &QPushButton::toggled,
             this, &MainWindow::sendManualMode);
 
-    if (kLocalManualTestMode) {
-        ui->connectionText->setText(tr("로컬 테스트 모드"));
-        ui->connectionText->setStyleSheet(
-            QStringLiteral("color: #245EC7;"));
-        ui->connectionDot->setStyleSheet(
-            QStringLiteral("background-color: #3478E5;"));
-        QTimer::singleShot(0, this, &MainWindow::startAutonomousTestMotion);
-    } else if (offlineMode) {
-        ui->connectionText->setText(tr("서버 없이 실행 중"));
-        ui->connectionText->setStyleSheet(
-            QStringLiteral("color: #245EC7;"));
-        ui->connectionDot->setStyleSheet(
-            QStringLiteral("background-color: #3478E5;"));
-    } else {
-        setServerConnected(false);
-        checkServerConnection();
-        auto *serverCheckTimer = new QTimer(this);
-        serverCheckTimer->setInterval(5000);
-        connect(serverCheckTimer, &QTimer::timeout,
-                this, &MainWindow::checkServerConnection);
-        serverCheckTimer->start();
-    }
+    startRobotStatusMonitor();
+
+    setServerConnected(false);
+    checkServerConnection();
+    auto *serverCheckTimer = new QTimer(this);
+    serverCheckTimer->setInterval(5000);
+    connect(serverCheckTimer, &QTimer::timeout,
+            this, &MainWindow::checkServerConnection);
+    serverCheckTimer->start();
 
     cameraProcess->setProcessChannelMode(QProcess::SeparateChannels);
     connect(cameraProcess, &QProcess::readyReadStandardOutput,
@@ -106,7 +94,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    stopAutonomousTestMotion();
+    robotStatusMonitor->terminate();
+    if (!robotStatusMonitor->waitForFinished(500))
+        robotStatusMonitor->kill();
+
     velocityPublisher->terminate();
     if (!velocityPublisher->waitForFinished(500))
         velocityPublisher->kill();
@@ -121,6 +112,69 @@ MainWindow::~MainWindow()
         cameraProcess->waitForFinished(1000);
     }
     delete ui;
+}
+
+void MainWindow::startRobotStatusMonitor()
+{
+    ui->robotConnectionValueLabel->setText(tr("연결 안 됨"));
+    ui->robotConnectionValueLabel->setStyleSheet(
+        QStringLiteral("color: #A56816;"));
+    ui->destinationValueLabel->setText(tr("선택 안 됨"));
+
+    robotStatusMonitor->setProcessChannelMode(QProcess::SeparateChannels);
+    connect(robotStatusMonitor, &QProcess::readyReadStandardOutput,
+            this, &MainWindow::readRobotStatusEvents);
+    connect(robotStatusMonitor,
+            qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
+            this, [this](int, QProcess::ExitStatus) {
+                ui->robotConnectionValueLabel->setText(tr("연결 안 됨"));
+                ui->robotConnectionValueLabel->setStyleSheet(
+                    QStringLiteral("color: #A56816;"));
+            });
+
+    const QString helper = QCoreApplication::applicationDirPath()
+                           + QStringLiteral("/ros_status_monitor.py");
+    robotStatusMonitor->start(QStringLiteral("/usr/bin/python3"), {helper});
+}
+
+void MainWindow::readRobotStatusEvents()
+{
+    while (robotStatusMonitor->canReadLine()) {
+        const QByteArray line = robotStatusMonitor->readLine().trimmed();
+        QJsonParseError error;
+        const QJsonDocument document = QJsonDocument::fromJson(line, &error);
+        if (error.error != QJsonParseError::NoError || !document.isObject())
+            continue;
+
+        const QJsonObject event = document.object();
+        if (event.contains(QStringLiteral("robot_connected"))) {
+            const bool connected =
+                event.value(QStringLiteral("robot_connected")).toBool();
+            ui->robotConnectionValueLabel->setText(
+                connected ? tr("연결됨") : tr("연결 안 됨"));
+            ui->robotConnectionValueLabel->setStyleSheet(
+                connected ? QStringLiteral("color: #247A5B;")
+                          : QStringLiteral("color: #A56816;"));
+        }
+
+        if (event.contains(QStringLiteral("destination"))) {
+            setDestination(
+                event.value(QStringLiteral("destination")).toString());
+        }
+    }
+}
+
+void MainWindow::setDestination(const QString &destinationId)
+{
+    static const QHash<QString, QString> destinationNames{
+        {QStringLiteral("restroom"), tr("화장실 앞")},
+        {QStringLiteral("room_301"), tr("강의실 301호")},
+        {QStringLiteral("room_302"), tr("강의실 302호")},
+        {QStringLiteral("elevator"), tr("엘리베이터 앞")}};
+    ui->destinationValueLabel->setText(
+        destinationNames.value(
+            destinationId,
+            destinationId.isEmpty() ? tr("선택 안 됨") : destinationId));
 }
 
 void MainWindow::startCameraStream()
@@ -226,10 +280,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     double angularZ = 0.0;
     switch (event->key()) {
     case Qt::Key_W:
-        linearX = 0.05;
+        linearX = 0.15;
         break;
     case Qt::Key_S:
-        linearX = -0.05;
+        linearX = -0.15;
         break;
     case Qt::Key_A:
         angularZ = 1.0;
@@ -266,131 +320,78 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::sendManualMode(bool enabled)
 {
-    const bool previousState = !enabled;
     publishManualMode(enabled);
     publishVelocity(0.0, 0.0);
 
-    if (kLocalManualTestMode) {
-        if (enabled)
-            stopAutonomousTestMotion();
-
-        ui->manualMoveButton->setText(
-            enabled ? tr("✓  수동 이동 중") : tr("↔  수동 이동"));
-        ui->manualCaptionLabel->setStyleSheet(QString());
-        ui->manualCaptionLabel->setText(
-            enabled ? tr("W/A/S/D로 로봇을 조작합니다 (키를 놓으면 정지)")
-                    : tr("키보드 또는 조작 화면으로 로봇을 직접 이동"));
-        ui->driveStatusValueLabel->setText(
-            enabled ? tr("수동 운행") : tr("대기 중"));
-        if (!enabled) {
-            velocityPublisher->terminate();
-            if (!velocityPublisher->waitForFinished(500))
-                velocityPublisher->kill();
-            startAutonomousTestMotion();
-        }
-        return;
-    }
-
-    if (offlineMode) {
-        ui->manualMoveButton->setText(
-            enabled ? tr("✓  수동 이동 중") : tr("↔  수동 이동"));
-        ui->manualCaptionLabel->setStyleSheet(QString());
-        ui->manualCaptionLabel->setText(
-            enabled ? tr("서버 없이 ROS 2 수동 운행 중")
-                    : tr("키보드 또는 조작 화면으로 로봇을 직접 이동"));
-        ui->driveStatusValueLabel->setText(
-            enabled ? tr("수동 운행") : tr("대기 중"));
-        return;
-    }
-
-    ui->manualMoveButton->setEnabled(false);
     ui->manualMoveButton->setText(
-        enabled ? tr("수동 모드 시작 중...") : tr("수동 모드 종료 중..."));
+        enabled ? tr("✓  수동 이동 중") : tr("↔  수동 이동"));
     ui->manualCaptionLabel->setStyleSheet(QString());
-    ui->manualCaptionLabel->setText(tr("서버에 운행 모드를 전송하고 있습니다"));
+    ui->manualCaptionLabel->setText(
+        enabled
+            ? tr("수동 운행 모드입니다")
+            : tr("키보드 또는 조작 화면으로 로봇을 직접 이동"));
+
+    // Manual driving and ROS commands must work even without the HTTP server.
+    // Only notify the web HMI when the periodic connection check says the
+    // server is currently reachable.
+    if (!serverConnected)
+        return;
 
     QNetworkRequest request(
-        QUrl(serverBaseUrl + QStringLiteral("/api/command")));
+        QUrl(kServerBaseUrl + QStringLiteral("/api/command")));
     request.setHeader(QNetworkRequest::ContentTypeHeader,
                       QStringLiteral("application/json"));
     request.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
     request.setTransferTimeout(5000);
 
-    // Entering or leaving manual mode keeps autonomous movement stopped.
+    // Update the local UI immediately. The request only notifies the server so
+    // the web HMI can be locked; its response never controls the button state.
     const QJsonObject command{
-        {QStringLiteral("command"), QStringLiteral("stop")}};
+        {QStringLiteral("command"), QStringLiteral("stop")},
+        {QStringLiteral("manual_mode"), enabled}};
     const QByteArray body =
         QJsonDocument(command).toJson(QJsonDocument::Compact);
     request.setHeader(QNetworkRequest::ContentLengthHeader, body.size());
     QNetworkReply *reply = networkManager->post(request, body);
 
-    connect(reply, &QNetworkReply::finished, this,
-            [this, reply, enabled, previousState] {
-                const QByteArray responseBody = reply->readAll();
-                const int statusCode =
-                    reply->attribute(QNetworkRequest::HttpStatusCodeAttribute)
-                        .toInt();
-                const bool succeeded =
-                    reply->error() == QNetworkReply::NoError
-                    && statusCode >= 200 && statusCode < 300;
-
-                ui->manualMoveButton->setEnabled(true);
-                if (succeeded) {
-                    setServerConnected(true);
-                    ui->manualMoveButton->setText(
-                        enabled ? tr("✓  수동 이동 중")
-                                : tr("↔  수동 이동"));
-                    ui->manualCaptionLabel->setStyleSheet(QString());
-                    ui->manualCaptionLabel->setText(
-                        enabled
-                            ? tr("서버에 수동 운행 모드가 설정되었습니다")
-                            : tr("키보드 또는 조작 화면으로 로봇을 직접 이동"));
-                } else {
-                    setServerConnected(false);
-                    publishManualMode(previousState);
-                    {
-                        const QSignalBlocker blocker(ui->manualMoveButton);
-                        ui->manualMoveButton->setChecked(previousState);
-                    }
-                    ui->manualMoveButton->setText(
-                        previousState ? tr("✓  수동 이동 중")
-                                      : tr("↔  수동 이동"));
-                    ui->manualCaptionLabel->setStyleSheet(
-                        QStringLiteral("color: #D63C42;"));
-                    const QString serverMessage =
-                        QString::fromUtf8(responseBody).trimmed();
-                    ui->manualCaptionLabel->setText(
-                        serverMessage.isEmpty()
-                            ? tr("서버 전송 실패: %1")
-                                  .arg(reply->errorString())
-                            : tr("서버 오류(%1): %2")
-                                  .arg(statusCode)
-                                  .arg(serverMessage));
-                }
-                reply->deleteLater();
-            });
+    connect(reply, &QNetworkReply::finished, reply, &QObject::deleteLater);
 }
 
 void MainWindow::checkServerConnection()
 {
     QNetworkRequest request(
-        QUrl(serverBaseUrl + QStringLiteral("/api/status")));
+        QUrl(kServerBaseUrl + QStringLiteral("/api/status")));
     request.setTransferTimeout(3000);
 
     QNetworkReply *reply = networkManager->get(request);
     connect(reply, &QNetworkReply::finished, this, [this, reply] {
         const int statusCode =
             reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-        setServerConnected(reply->error() == QNetworkReply::NoError
-                           && statusCode >= 200 && statusCode < 300);
+        const bool connected = reply->error() == QNetworkReply::NoError
+                               && statusCode >= 200 && statusCode < 300;
+        setServerConnected(connected);
+
+        if (connected) {
+            QJsonParseError error;
+            const QJsonDocument document =
+                QJsonDocument::fromJson(reply->readAll(), &error);
+            if (error.error == QJsonParseError::NoError && document.isObject()) {
+                const QJsonValue destination =
+                    document.object().value(QStringLiteral("destination"));
+                setDestination(destination.isString()
+                                   ? destination.toString()
+                                   : QString());
+            }
+        }
         reply->deleteLater();
     });
 }
 
 void MainWindow::setServerConnected(bool connected)
 {
+    serverConnected = connected;
     ui->connectionText->setText(
-        connected ? tr("서버 연결됨") : tr("서버 연결 중..."));
+        connected ? tr("서버 연결됨") : tr("서버 연결 안 됨"));
     ui->connectionText->setStyleSheet(
         connected ? QStringLiteral("color: #167345;")
                   : QStringLiteral("color: #A56816;"));
@@ -451,32 +452,16 @@ void MainWindow::publishVelocity(double linearX, double angularZ)
     startVelocityPublisher(velocityPublisher, linearX, angularZ);
 }
 
-void MainWindow::startAutonomousTestMotion()
-{
-    // A simple curved trajectory stands in for Nav2 during the local test.
-    publishVelocity(0.3, 0.15);
-    ui->driveStatusValueLabel->setText(tr("자율 주행 테스트"));
-}
-
-void MainWindow::stopAutonomousTestMotion()
-{
-    publishVelocity(0.0, 0.0);
-}
-
 void MainWindow::startVelocityPublisher(QProcess *process,
                                         double linearX, double angularZ)
 {
-    const QString defaultTopic = kLocalManualTestMode
-                                     ? QStringLiteral("/model/vehicle_blue/cmd_vel")
-                                     : QStringLiteral("/cmd_vel");
-    const QString topic = qEnvironmentVariable(
-        "CMD_VEL_TOPIC", defaultTopic);
     if (process->state() == QProcess::NotRunning) {
         process->setStandardOutputFile(QProcess::nullDevice());
         process->setStandardErrorFile(QProcess::nullDevice());
         const QString helper = QCoreApplication::applicationDirPath()
                                + QStringLiteral("/velocity_publisher.py");
-        process->start(QStringLiteral("/usr/bin/python3"), {helper, topic});
+        process->start(QStringLiteral("/usr/bin/python3"),
+                       {helper, kVelocityTopic});
         if (!process->waitForStarted(2000))
             return;
     }

@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Core Network Widgets LinguistTools)
+find_package(Qt6 6.4.2 REQUIRED COMPONENTS Core Network Widgets LinguistTools)
 
 qt_standard_project_setup()
 
@@ -22,6 +22,12 @@ qt_add_executable(ManagerScreen
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/velocity_publisher.py
     ${CMAKE_CURRENT_BINARY_DIR}/velocity_publisher.py
+    COPYONLY
+)
+
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_status_monitor.py
+    ${CMAKE_CURRENT_BINARY_DIR}/ros_status_monitor.py
     COPYONLY
 )
 
@@ -52,7 +58,19 @@ install(TARGETS ManagerScreen
 install(PROGRAMS
     ${CMAKE_CURRENT_BINARY_DIR}/manager-screen
     ${CMAKE_CURRENT_SOURCE_DIR}/velocity_publisher.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/ros_status_monitor.py
     DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+# Desktop application entry. It launches the wrapper above so ROS 2 Jazzy is
+# sourced even when the user starts the app from the Ubuntu application menu.
+install(FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/manager-screen.desktop
+    DESTINATION /usr/share/applications
+)
+install(FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/manager-screen.svg
+    DESTINATION /usr/share/icons/hicolor/scalable/apps
 )
 
 qt_generate_deploy_app_script(

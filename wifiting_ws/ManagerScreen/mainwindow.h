@@ -31,13 +31,14 @@ private:
     void readCameraFrames();
     void updateCameraFrame();
     void setCameraStatus(const QString &message, bool streaming);
+    void startRobotStatusMonitor();
+    void readRobotStatusEvents();
+    void setDestination(const QString &destinationId);
     void checkServerConnection();
     void setServerConnected(bool connected);
     void sendManualMode(bool enabled);
     void publishManualMode(bool enabled);
     void publishVelocity(double linearX, double angularZ);
-    void startAutonomousTestMotion();
-    void stopAutonomousTestMotion();
     void startVelocityPublisher(QProcess *process,
                                 double linearX, double angularZ);
 
@@ -45,10 +46,10 @@ private:
     QProcess *cameraProcess;
     QProcess *manualModePublisher;
     QProcess *velocityPublisher;
+    QProcess *robotStatusMonitor;
     QNetworkAccessManager *networkManager;
-    QString serverBaseUrl;
-    bool offlineMode;
     QByteArray cameraBuffer;
     QPixmap currentFrame;
+    bool serverConnected = false;
 };
 #endif // MAINWINDOW_H

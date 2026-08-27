@@ -1,7 +1,0 @@
-# Hashes of file build rules.
-f895c249ab108b89f8ee1d666672bcb2 .qt/rcc/qrc_ManagerScreen_translations.cpp
-63870602bca1056b5b9671d6183d7056 CMakeFiles/ManagerScreen_autogen
-63870602bca1056b5b9671d6183d7056 CMakeFiles/ManagerScreen_lrelease
-4e270368d315e2447c9ff11de51e944b CMakeFiles/ManagerScreen_lupdate
-059071f747bc4c6ef72c271a83ddc7d2 ManagerScreen_autogen/timestamp
-21847b8f70bd1a9c03195960688b9aea ManagerScreen_ko_KR.qm

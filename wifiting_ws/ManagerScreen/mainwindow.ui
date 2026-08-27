@@ -141,33 +141,46 @@ QLabel#statusPanelDescriptionLabel {
 }
 
 QFrame#speedStatusCard,
-QFrame#batteryStatusCard,
-QFrame#temperatureStatusCard,
-QFrame#driveStatusCard {
-    background-color: #F7F9FC;
-    border: 1px solid #E2E8F1;
-    border-radius: 12px;
+QFrame#robotConnectionStatusCard,
+QFrame#destinationStatusCard {
+    background-color: #FFFFFF;
+    border: 1px solid #DCE5F1;
+    border-radius: 15px;
+}
+
+QFrame#robotConnectionStatusCard {
+    background-color: #F4FBF7;
+    border-color: #CFE9DA;
+}
+
+QFrame#destinationStatusCard {
+    background-color: #F4F8FF;
+    border-color: #D4E2FA;
 }
 
 QLabel#speedTitleLabel,
-QLabel#batteryTitleLabel,
-QLabel#temperatureTitleLabel,
-QLabel#driveStatusTitleLabel {
+QLabel#robotConnectionTitleLabel,
+QLabel#destinationTitleLabel {
     color: #737E92;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-QLabel#speedValueLabel,
-QLabel#batteryValueLabel,
-QLabel#temperatureValueLabel,
-QLabel#driveStatusValueLabel {
-    color: #1C2940;
-    font-size: 19px;
+    font-size: 15px;
     font-weight: 700;
 }
 
-QLabel#driveStatusValueLabel {
+QLabel#speedValueLabel,
+QLabel#robotConnectionValueLabel,
+QLabel#destinationValueLabel {
+    color: #1C2940;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+QLabel#destinationTitleLabel,
+QLabel#destinationValueLabel {
+    color: #245EC7;
+    font-size: 17px;
+}
+
+QLabel#robotConnectionValueLabel {
     color: #247A5B;
 }
 
@@ -206,22 +219,6 @@ QPushButton#manualMoveButton:checked:hover {
     border-color: #2868CC;
 }
 
-QPushButton#emergencyStopButton {
-    color: #FFFFFF;
-    background-color: #E5484D;
-    border: 2px solid #E5484D;
-}
-
-QPushButton#emergencyStopButton:hover {
-    background-color: #D63C42;
-    border-color: #D63C42;
-}
-
-QPushButton#emergencyStopButton:pressed {
-    background-color: #BF3137;
-    border-color: #BF3137;
-}
-
 QPushButton#logViewButton {
     color: #216A66;
     background-color: #FFFFFF;
@@ -238,7 +235,6 @@ QPushButton#logViewButton:pressed {
 }
 
 QLabel#manualCaptionLabel,
-QLabel#emergencyCaptionLabel,
 QLabel#logCaptionLabel {
     color: #8892A5;
     font-size: 12px;
@@ -445,7 +441,7 @@ QLabel#logCaptionLabel {
            </property>
            <layout class="QVBoxLayout" name="robotStatusPanelLayout">
             <property name="spacing">
-             <number>9</number>
+             <number>12</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -469,7 +465,7 @@ QLabel#logCaptionLabel {
             <item>
              <widget class="QLabel" name="statusPanelDescriptionLabel">
               <property name="text">
-               <string>현재 센서 및 주행 정보를 표시합니다.</string>
+               <string>안내 로봇의 연결 상태와 목적지를 표시합니다.</string>
               </property>
              </widget>
             </item>
@@ -478,7 +474,7 @@ QLabel#logCaptionLabel {
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>51</height>
+                <height>66</height>
                </size>
               </property>
               <property name="frameShape">
@@ -489,13 +485,13 @@ QLabel#logCaptionLabel {
                 <number>16</number>
                </property>
                <property name="topMargin">
-                <number>8</number>
+                <number>12</number>
                </property>
                <property name="rightMargin">
                 <number>16</number>
                </property>
                <property name="bottomMargin">
-                <number>8</number>
+                <number>12</number>
                </property>
                <item>
                 <widget class="QLabel" name="speedTitleLabel">
@@ -531,38 +527,38 @@ QLabel#logCaptionLabel {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="batteryStatusCard">
+             <widget class="QFrame" name="robotConnectionStatusCard">
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>51</height>
+                <height>66</height>
                </size>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
               </property>
-              <layout class="QHBoxLayout" name="batteryStatusCardLayout">
+              <layout class="QHBoxLayout" name="robotConnectionStatusCardLayout">
                <property name="leftMargin">
                 <number>16</number>
                </property>
                <property name="topMargin">
-                <number>8</number>
+                <number>12</number>
                </property>
                <property name="rightMargin">
                 <number>16</number>
                </property>
                <property name="bottomMargin">
-                <number>8</number>
+                <number>12</number>
                </property>
                <item>
-                <widget class="QLabel" name="batteryTitleLabel">
+                <widget class="QLabel" name="robotConnectionTitleLabel">
                  <property name="text">
-                  <string>배터리</string>
+                  <string>안내로봇 연결상태</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="batteryStatusSpacer">
+                <spacer name="robotConnectionStatusSpacer">
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
                  </property>
@@ -575,9 +571,9 @@ QLabel#logCaptionLabel {
                 </spacer>
                </item>
                <item>
-                <widget class="QLabel" name="batteryValueLabel">
+                <widget class="QLabel" name="robotConnectionValueLabel">
                  <property name="text">
-                  <string>100 %</string>
+                  <string>연결 안 됨</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -588,38 +584,38 @@ QLabel#logCaptionLabel {
              </widget>
             </item>
             <item>
-             <widget class="QFrame" name="temperatureStatusCard">
+             <widget class="QFrame" name="destinationStatusCard">
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>51</height>
+                <height>66</height>
                </size>
               </property>
               <property name="frameShape">
                <enum>QFrame::Shape::NoFrame</enum>
               </property>
-              <layout class="QHBoxLayout" name="temperatureStatusCardLayout">
+              <layout class="QHBoxLayout" name="destinationStatusCardLayout">
                <property name="leftMargin">
                 <number>16</number>
                </property>
                <property name="topMargin">
-                <number>8</number>
+                <number>12</number>
                </property>
                <property name="rightMargin">
                 <number>16</number>
                </property>
                <property name="bottomMargin">
-                <number>8</number>
+                <number>12</number>
                </property>
                <item>
-                <widget class="QLabel" name="temperatureTitleLabel">
+                <widget class="QLabel" name="destinationTitleLabel">
                  <property name="text">
-                  <string>온도</string>
+                  <string>목적지</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <spacer name="temperatureStatusSpacer">
+                <spacer name="destinationStatusSpacer">
                  <property name="orientation">
                   <enum>Qt::Orientation::Horizontal</enum>
                  </property>
@@ -632,66 +628,9 @@ QLabel#logCaptionLabel {
                 </spacer>
                </item>
                <item>
-                <widget class="QLabel" name="temperatureValueLabel">
+                <widget class="QLabel" name="destinationValueLabel">
                  <property name="text">
-                  <string>-- °C</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item>
-             <widget class="QFrame" name="driveStatusCard">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>51</height>
-               </size>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Shape::NoFrame</enum>
-              </property>
-              <layout class="QHBoxLayout" name="driveStatusCardLayout">
-               <property name="leftMargin">
-                <number>16</number>
-               </property>
-               <property name="topMargin">
-                <number>8</number>
-               </property>
-               <property name="rightMargin">
-                <number>16</number>
-               </property>
-               <property name="bottomMargin">
-                <number>8</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="driveStatusTitleLabel">
-                 <property name="text">
-                  <string>주행 상태</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="driveStatusSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Orientation::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QLabel" name="driveStatusValueLabel">
-                 <property name="text">
-                  <string>대기 중</string>
+                  <string>선택 안 됨</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
@@ -853,33 +792,6 @@ QLabel#logCaptionLabel {
          <widget class="QLabel" name="manualCaptionLabel">
           <property name="text">
            <string>키보드 또는 조작 화면으로 로봇을 직접 이동</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="emergencyActionLayout">
-        <property name="spacing">
-         <number>6</number>
-        </property>
-        <item>
-         <widget class="QPushButton" name="emergencyStopButton">
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="text">
-           <string>■  긴급 정지</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="emergencyCaptionLabel">
-          <property name="text">
-           <string>주행 중인 로봇을 즉시 정지</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignmentFlag::AlignCenter</set>

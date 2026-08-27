@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Manager Screen
+Name[ko]=안내 로봇 관제 시스템
+Comment=ROS 2 guide robot manager screen
+Exec=/opt/ManagerScreen/bin/manager-screen
+Icon=manager-screen
+Terminal=false
+Categories=Utility;Robotics;
+StartupNotify=true

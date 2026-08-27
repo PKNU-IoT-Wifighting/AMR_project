@@ -17,7 +17,7 @@ HTML, CSS, JavaScript는 서로 다른 역할을 담당하며 함께 사용됩�
 | HTML | 화면의 구조와 내용 | 목적지 버튼, 안내 확인창, 관리자 제어창 |
 | CSS | 색상·크기·배치·반응형 디자인 | 버튼 색상, 카드 배치, 1024×600 화면 대응 |
 | JavaScript | 사용자의 조작과 화면 동작 | 버튼 클릭, 서버 요청, 수동모드 및 도착 화면 전환 |
-| Spring Boot 서버 | 로봇·ROS와 웹 사이의 데이터 처리 | 목적지 좌표 전달, 수동모드와 도착 상태 관리 |
+| ROS 2 C++ 서버 | 로봇·ROS와 웹 사이의 데이터 처리 | 목적지 좌표 전달, 수동모드와 도착 상태 관리 |
 
 따라서 기존 CSS 디자인은 그대로 사용되고 있으며, JavaScript가 그 디자인을 움직이게 만드는 역할을 합니다.
 
@@ -33,13 +33,13 @@ Jaewook/user-ui-template/
 └─ robot-mark.svg
 ```
 
-새 Spring Boot 서버에 적용된 위치:
+현재 ROS 2 C++ 서버에 적용된 위치:
 
 ```text
-haktae/demo/src/main/resources/static/
+hyunbeen/web/
 ```
 
-Spring Boot는 `static` 폴더의 파일을 자동으로 웹에 제공합니다. 서버가 기본 포트로 실행되면 다음과 같이 접속합니다.
+`hyunbeen` 서버는 `web` 폴더를 ROS 2 패키지와 함께 설치하고 정적 웹으로 제공합니다. 서버가 기본 포트로 실행되면 다음과 같이 접속합니다.
 
 ```text
 http://서버주소:8080/
@@ -65,13 +65,13 @@ http://서버주소:8080/
 
 정적 웹으로 바꾸면서 다음 장점이 생겼습니다.
 
-- Spring Boot 서버 하나만 실행하면 됨
+- ROS 2 C++ 서버 하나만 실행하면 됨
 - 웹과 API가 모두 8080 포트를 사용함
 - 서버 주소를 JavaScript에 고정하지 않아도 됨
 - CORS 설정이 필요하지 않음
 - 서버 담당자가 정적 파일을 함께 빌드하고 배포할 수 있음
 
-### 3단계: 새 Spring Boot 서버 규격 적용
+### 3단계: 임시 Spring Boot 서버 규격 적용
 
 새 서버의 임시 UI 대신 기존 GuideRobot 디자인을 적용했습니다.
 
@@ -94,6 +94,19 @@ http://서버주소:8080/
 
 로봇이 도착한 뒤에는 같은 버튼이 `확인`으로 바뀝니다. 이때는 서버 명령을 보내지 않고 목적지 선택 화면으로 돌아갑니다.
 
+### 5단계: 최종 ROS 2 C++ 서버 규격 적용
+
+`hyunbeen` 폴더에 새로 만든 C++ 서버가 최종 서버가 되면서 UI 디자인은 유지하고 API 규격만 다시 맞췄습니다.
+
+| 항목 | 최종 규격 |
+| --- | --- |
+| 목적지 전송 주소 | `POST /api/command` |
+| 목적지 ID | `restroom`, `room_301`, `room_302`, `elevator` |
+| 수동모드 필드 | `manual_mode` |
+| 도착 상태 | `status: "arrived"` |
+
+웹 실행본은 `hyunbeen/web`에 있으며 `colcon build` 시 ROS 2 패키지에 함께 설치됩니다.
+
 ## 4. 현재 화면 동작 순서
 
 ```text
@@ -105,13 +118,13 @@ GET /api/status로 서버 연결 및 수동모드 확인
   ↓
 안내 시작 확인창
   ↓
-POST /api/navigation으로 목적지 ID 전송
+POST /api/command로 목적지 ID 전송
   ↓
 “로봇이 안내 중입니다” 화면 표시
   ↓
 GET /api/status를 1초마다 확인
   ↓
-navigationStatus가 arrived이면 도착 화면 표시
+status가 arrived이면 도착 화면 표시
   ↓
 사용자가 확인 버튼을 누르면 목적지 선택 화면으로 복귀
 ```
@@ -135,23 +148,23 @@ POST /api/command에 {"command":"cancel"} 전송
 301호를 선택한 예시:
 
 ```http
-POST /api/navigation
+POST /api/command
 Content-Type: application/json
 ```
 
 ```json
 {
-  "destination": "301"
+  "destination": "room_301"
 }
 ```
 
-웹은 좌표를 알 필요가 없습니다. 서버가 `301`이라는 ID를 좌표로 바꾸고 ROS 2에 전달합니다.
+웹은 좌표를 알 필요가 없습니다. 서버가 `room_301`이라는 ID를 좌표로 바꾸고 ROS 2에 전달합니다.
 
 사용 가능한 목적지 ID:
 
-- `toilet`: 화장실 앞
-- `301`: 강의실 301호
-- `302`: 강의실 302호
+- `restroom`: 화장실 앞
+- `room_301`: 강의실 301호
+- `room_302`: 강의실 302호
 - `elevator`: 엘리베이터 앞
 
 ### 상태 확인
@@ -166,25 +179,23 @@ GET /api/status
 
 ```json
 {
-  "status": "ok",
+  "status": "moving",
   "manual_mode": false,
-  "navigationStatus": "moving"
+  "destination": "room_301"
 }
 ```
 
 각 필드의 의미:
 
-- `status`: 서버 자체가 정상인지 나타냄
+- `status`: 로봇의 이동 상태를 나타냄
 - `manual_mode`: 관리자가 로봇을 수동으로 제어 중인지 나타냄
-- `navigationStatus`: 로봇의 이동 상태를 나타냄
+- `destination`: 현재 이동 중인 목적지 ID이며 대기 중에는 생략될 수 있음
 
-`navigationStatus` 값은 다음과 같이 사용할 예정입니다.
+`status` 값은 다음과 같이 사용합니다.
 
 - `idle`: 대기 중
 - `moving`: 목적지로 이동 중
 - `arrived`: 목적지에 도착함
-
-현재 서버에 `navigationStatus`가 없어도 웹 오류는 발생하지 않습니다. 다만 도착 화면으로 자동 전환되지 않고 안내 중 화면을 유지합니다.
 
 호환성을 위해 웹은 다음 응답을 모두 도착으로 인식합니다.
 
@@ -206,9 +217,7 @@ Content-Type: application/json
 }
 ```
 
-Spring Boot 서버는 이 명령을 받으면 설정된 `/cmd_vel` 토픽에 `linear.x: 0.0`, `angular.z: 0.0`인 `Twist` 메시지를 한 번 발행하고 주행 상태를 `idle`로 변경합니다.
-
-속도 0 발행은 즉시 정지 명령이지만 Nav2 목표 자체를 취소하는 것은 아닙니다. Nav2가 다시 속도 명령을 발행하는 환경에서는 액션 목표 취소 기능을 추가로 검토해야 합니다.
+ROS 2 C++ 서버는 이 명령을 받으면 현재 Nav2 목표에 취소 요청을 보내고, 취소 결과를 받으면 주행 상태를 `idle`로 변경합니다. 진행 중인 목표가 없으면 즉시 대기 상태로 돌아갑니다.
 
 ## 6. JavaScript에서 공부할 부분
 
@@ -256,7 +265,7 @@ elements.startButton.addEventListener("click", openConfirmation);
 ### 서버 요청 `fetch`
 
 ```javascript
-await fetch("/api/navigation", {
+await fetch("/api/command", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ destination })
@@ -362,7 +371,7 @@ JavaScript가 HTML 요소에 `hidden` 속성을 설정하면 CSS가 해당 요�
 ```text
 관리자 화면
   ↓ manual_mode 변경 요청
-Spring Boot 서버
+ROS 2 C++ 서버
   ↓ GET /api/status 응답
 사용자 UI
   ↓
@@ -380,20 +389,20 @@ Spring Boot 서버
   ↓
 ROS 2가 도착 신호 발생
   ↓
-Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
+ROS 2 C++ 서버의 Nav2 결과 콜백이 status를 arrived로 변경
   ↓
 사용자 UI가 GET /api/status로 확인
   ↓
 도착 화면 표시
 ```
 
-`haktae/demo/ros/navigation_status_bridge.py`가 Nav2의 `/navigate_to_pose/_action/status`를 구독하고 최신 목표의 `STATUS_SUCCEEDED`를 감지하면 서버에 `arrived`를 보고합니다. 사용자 UI는 서버가 제공하는 값을 화면에 표현합니다.
+`hyunbeen` C++ 서버는 Nav2 `NavigateToPose` 액션 결과를 직접 받습니다. 결과가 성공이면 서버 상태를 `arrived`로 바꾸고, 사용자 UI는 `GET /api/status`에서 이 값을 확인해 화면에 표현합니다. 별도의 Python 브리지는 사용하지 않습니다.
 
 ## 10. 현재 구현 상태
 
 - [x] 목적지 4개 표시
 - [x] 목적지 선택 및 안내 시작 확인
-- [x] 새 서버의 `/api/navigation`으로 목적지 ID 전송
+- [x] 최종 서버의 `/api/command`로 목적지 ID 전송
 - [x] 수동모드 전체 화면 표시 및 자동 해제
 - [x] 안내 중 화면 표시
 - [x] 안내 취소 버튼 및 서버 요청 복원
@@ -403,10 +412,11 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 - [x] 도착 확인 후 초기 화면 복귀
 - [x] 서버 상태에 `navigationStatus`가 없어도 오류 없이 동작
 - [x] 브라우저 동작 테스트
-- [x] 서버에서 `{"command":"cancel"}`을 처리하고 정지 토픽 발행
-- [x] 서버에 `navigationStatus` 상태 저장 및 도착 보고 API 추가
-- [x] Nav2 성공 상태를 서버에 전달하는 ROS 2 브리지 추가
-- [ ] 실제 로봇 환경에서 Nav2 상태 토픽 이름과 메시지 수신 확인
+- [x] 서버에서 `{"command":"cancel"}`을 처리하고 Nav2 목표 취소
+- [x] C++ 서버가 Nav2 성공 결과를 받아 `status: "arrived"`로 변경
+- [x] `manual_mode` 상태에 따른 관리자 제어 화면 표시
+- [x] UI를 ROS 2 패키지 빌드에 포함하도록 연결
+- [ ] 실제 로봇 환경에서 Nav2 이동·취소·도착 결과 확인
 - [ ] 실제 로봇과 통합 테스트
 
 ## 11. 추천 학습 순서
@@ -421,14 +431,16 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 
 처음부터 모든 문법을 외우기보다는 버튼 하나를 기준으로 HTML → CSS → JavaScript 순서로 연결해보는 것이 좋습니다.
 
-## 12. 인텔리제이에서 확인하는 방법
+## 12. 새 C++ 서버에서 확인하는 방법
 
 1. `C:/SourceBank/AMR_project`를 프로젝트로 열기
 2. Git 브랜치를 `Web_server`로 선택하기
-3. `Webserver/haktae/demo`를 Gradle 프로젝트로 불러오기
-4. Spring Boot 애플리케이션 실행하기
-5. 브라우저에서 `http://localhost:8080/` 접속하기
-6. 개발자 도구의 Network 탭에서 `/api/status`와 `/api/navigation` 요청 확인하기
+3. Ubuntu에서 `Webserver/hyunbeen`으로 이동하기
+4. `colcon build --packages-select guiderobot_server` 실행하기
+5. `source install/setup.bash` 실행하기
+6. `ros2 launch guiderobot_server server.launch.py` 실행하기
+7. 브라우저에서 `http://localhost:8080/` 접속하기
+8. 개발자 도구의 Network 탭에서 `/api/status`와 `/api/command` 요청 확인하기
 
 ## 13. 2026-08-26 작업 기록
 
@@ -456,3 +468,13 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 - 이전 C++ 서버와 .NET Web HMI 자료를 `Jaewook/legacy`로 이동
 - 최상위 `README.md`에 현재 사용 위치, 재사용 방법, 과거 자료 구분 추가
 - UI 템플릿의 API 규격과 파일별 수정 위치를 별도 README에 정리
+
+## 15. 2026-08-27 hyunbeen C++ 서버 통합 기록
+
+- Jaewook 사용자 UI 디자인을 `hyunbeen/web`에 적용
+- 목적지 전송을 `POST /api/command`로 변경
+- 목적지 ID를 `restroom`, `room_301`, `room_302`, `elevator`로 변경
+- `manual_mode`와 `status: "arrived"` 응답 연결
+- CMake 빌드 시 UI 파일을 ROS 2 패키지에 함께 설치하도록 변경
+- `ros2 launch`가 설치된 UI 경로를 자동으로 사용하도록 변경
+- 임시 `haktae` Spring Boot 서버는 변경 이력으로만 유지

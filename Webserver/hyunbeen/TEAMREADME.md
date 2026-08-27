@@ -59,11 +59,10 @@ colcon build --packages-select guiderobot_server
 ### 3. 실행
 
 ```bash
-ros2 run guiderobot_server guiderobot_server_node \
-  --ros-args -p static_web_root:=/home/ubuntu/webfolder/AMR_project/Webserver/Jaewook/GuideRobot/GuideRobot.StaticHmi
+ros2 launch guiderobot_server server.launch.py
 ```
 
-`static_web_root`는 `GuideRobot.StaticHmi`(index.html, app.css, app.js, robot-mark.svg가 있는 폴더) 실제 경로로 지정한다.
+`colcon build` 시 `Webserver/hyunbeen/web`의 사용자 UI가 패키지에 함께 설치되며, launch 파일이 설치된 웹 경로를 자동으로 서버에 전달한다. 별도의 `static_web_root` 입력은 필요하지 않다.
 
 정상 기동 시 로그:
 

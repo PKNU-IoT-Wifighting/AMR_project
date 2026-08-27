@@ -1,9 +1,9 @@
 "use strict";
 
 const destinations = new Map([
-    ["toilet", { id: "toilet", name: "화장실 앞", icon: "🚻" }],
-    ["301", { id: "301", name: "강의실 301호", icon: "🏫" }],
-    ["302", { id: "302", name: "강의실 302호", icon: "🏫" }],
+    ["restroom", { id: "restroom", name: "화장실 앞", icon: "🚻" }],
+    ["room_301", { id: "room_301", name: "강의실 301호", icon: "🏫" }],
+    ["room_302", { id: "room_302", name: "강의실 302호", icon: "🏫" }],
     ["elevator", { id: "elevator", name: "엘리베이터 앞", icon: "🛗" }]
 ]);
 
@@ -146,7 +146,7 @@ function closeConfirmation() {
 }
 
 async function postNavigation(destination) {
-    const response = await fetch("/api/navigation", {
+    const response = await fetch("/api/command", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ destination })

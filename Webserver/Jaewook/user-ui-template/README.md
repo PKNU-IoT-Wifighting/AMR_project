@@ -24,10 +24,10 @@ Spring Boot에서는 일반적으로 다음 위치에 네 파일을 넣습니다
 src/main/resources/static/
 ```
 
-현재 팀 프로젝트의 실제 적용 위치는 다음과 같습니다.
+현재 팀 프로젝트의 실제 적용 위치는 새 ROS 2 C++ 서버의 `web` 폴더입니다.
 
 ```text
-Webserver/haktae/demo/src/main/resources/static/
+Webserver/hyunbeen/web/
 ```
 
 ## 필요한 API 규격
@@ -35,21 +35,21 @@ Webserver/haktae/demo/src/main/resources/static/
 ### 목적지 전송
 
 ```http
-POST /api/navigation
+POST /api/command
 Content-Type: application/json
 ```
 
 ```json
-{"destination":"301"}
+{"destination":"room_301"}
 ```
 
 사용하는 목적지 ID:
 
 | ID | 화면 표시 |
 | --- | --- |
-| `toilet` | 화장실 앞 |
-| `301` | 강의실 301호 |
-| `302` | 강의실 302호 |
+| `restroom` | 화장실 앞 |
+| `room_301` | 강의실 301호 |
+| `room_302` | 강의실 302호 |
 | `elevator` | 엘리베이터 앞 |
 
 웹은 목적지 ID만 전송합니다. 좌표와 ROS 목표 처리는 서버가 담당합니다.
@@ -95,6 +95,6 @@ GET /api/status
 
 ## 확인 방법
 
-`index.html`만 브라우저로 열어 디자인을 볼 수 있지만 서버 API가 없으므로 통신 오류가 표시될 수 있습니다. 전체 동작은 Spring Boot 서버를 실행한 뒤 `http://localhost:8080/`에서 확인합니다.
+`index.html`만 브라우저로 열어 디자인을 볼 수 있지만 서버 API가 없으므로 통신 오류가 표시될 수 있습니다. 전체 동작은 `hyunbeen` ROS 2 서버를 실행한 뒤 `http://localhost:8080/`에서 확인합니다.
 
 UI의 제작 과정과 JavaScript·CSS 설명은 [`../docs/USER_UI_DEVELOPMENT_NOTES.md`](../docs/USER_UI_DEVELOPMENT_NOTES.md)를 참고합니다.

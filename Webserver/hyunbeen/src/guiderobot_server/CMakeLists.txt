@@ -57,12 +57,17 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME}
 )
 
-# 정적 웹 파일(GuideRobot.StaticHmi)을 이 패키지 share 폴더 아래로 함께 설치하고 싶다면
-# 팀 저장소 구조에 맞춰 아래 줄의 경로를 조정해서 사용하면 된다.
-# install(DIRECTORY
-#   web
-#   DESTINATION share/${PROJECT_NAME}
-# )
+# 워크스페이스 루트의 web 폴더를 ROS 2 패키지와 함께 설치한다.
+# 설치본은 share/guiderobot_server/web에 위치하며 launch 파일이 자동으로 사용한다.
+set(GUIDEROBOT_WEB_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/../../web")
+if(NOT EXISTS "${GUIDEROBOT_WEB_SOURCE}/index.html")
+  message(FATAL_ERROR "GuideRobot web UI not found: ${GUIDEROBOT_WEB_SOURCE}")
+endif()
+
+install(DIRECTORY
+  "${GUIDEROBOT_WEB_SOURCE}/"
+  DESTINATION share/${PROJECT_NAME}/web
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

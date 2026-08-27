@@ -1,0 +1,264 @@
+[0.000000] (-) TimerEvent: {}
+[0.001793] (guiderobot_server) JobQueued: {'identifier': 'guiderobot_server', 'dependencies': OrderedDict()}
+[0.001841] (guiderobot_server) JobStarted: {'identifier': 'guiderobot_server'}
+[0.015826] (guiderobot_server) JobProgress: {'identifier': 'guiderobot_server', 'progress': 'cmake'}
+[0.016722] (guiderobot_server) Command: {'cmd': ['/usr/bin/cmake', '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/src/guiderobot_server', '-DCMAKE_INSTALL_PREFIX=/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server'], 'cwd': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'XDG_ACTIVATION_TOKEN': 'gnome-shell/Terminator/2795-7-ubuntu24_TIME17410120', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share', 'USER': 'ubuntu', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'wayland', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge/lib:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/ubuntu', 'OLDPWD': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen', 'DESKTOP_SESSION': 'ubuntu', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/terminator.desktop', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'MANAGERPID': '2551', 'SYSTEMD_EXEC_PID': '2795', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '13173', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install:/home/ubuntu/slam_project_v2/ros2_ws/install:/home/ubuntu/slam_project/ros2_ws/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'ubuntu', 'JOURNAL_STREAM': '10:33526', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'ubuntu', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/ubuntu/.dotnet/tools', 'SESSION_MANAGER': 'local/ubuntu24:@/tmp/.ICE-unix/2746,unix/ubuntu24:/tmp/.ICE-unix/2746', 'INVOCATION_ID': 'edaf0c560cfc4c83a8e7b588a289dc6d', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'DOTNET_BUNDLE_EXTRACT_BASE_DIR': '/home/ubuntu/.cache/dotnet_bundle_extract', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.R8QEU3', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server:/home/ubuntu/slam_project_v2/ros2_ws/install/my_world:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/home/ubuntu/slam_project/ros2_ws/install/explore_lite:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'TERMINATOR_UUID': 'urn:uuid:d7ce9b68-3d01-4e6c-ab71-02312910a777', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'GJS_DEBUG_OUTPUT': 'stderr', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server', 'TURTLEBOT3_MODEL': 'burger', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/ubuntu/slam_project/ros2_ws/build/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/my_pkg/lib/python3.12/site-packages:/home/ubuntu/slam_project/ros2_ws/build/map2gazebo:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo/lib/python3.12/site-packages:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server:/home/ubuntu/slam_project_v2/ros2_ws/install/my_world:/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge:/home/ubuntu/slam_project/ros2_ws/install/explore_lite:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/opt/ros/jazzy'}), 'shell': False}
+[0.102193] (-) TimerEvent: {}
+[0.108242] (guiderobot_server) StdoutLine: {'line': b'-- The C compiler identification is GNU 13.3.0\n'}
+[0.175611] (guiderobot_server) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 13.3.0\n'}
+[0.202307] (-) TimerEvent: {}
+[0.207678] (guiderobot_server) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.302452] (-) TimerEvent: {}
+[0.320779] (guiderobot_server) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.327248] (guiderobot_server) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.327796] (guiderobot_server) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.328661] (guiderobot_server) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.341117] (guiderobot_server) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.402567] (-) TimerEvent: {}
+[0.452474] (guiderobot_server) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.459449] (guiderobot_server) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.459646] (guiderobot_server) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.459903] (guiderobot_server) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.471021] (guiderobot_server) StdoutLine: {'line': b'-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)\n'}
+[0.502910] (-) TimerEvent: {}
+[0.603156] (-) TimerEvent: {}
+[0.637292] (guiderobot_server) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter \n'}
+[0.703297] (-) TimerEvent: {}
+[0.795207] (guiderobot_server) StdoutLine: {'line': b'-- Found rclcpp: 28.1.21 (/opt/ros/jazzy/share/rclcpp/cmake)\n'}
+[0.803428] (-) TimerEvent: {}
+[0.879046] (guiderobot_server) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)\n'}
+[0.902930] (guiderobot_server) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.6.9 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)\n'}
+[0.903518] (-) TimerEvent: {}
+[0.931849] (guiderobot_server) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.964124] (guiderobot_server) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.003649] (-) TimerEvent: {}
+[1.089178] (guiderobot_server) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)\n'}
+[1.095030] (guiderobot_server) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 8.4.4 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)\n'}
+[1.103986] (-) TimerEvent: {}
+[1.204271] (-) TimerEvent: {}
+[1.248825] (guiderobot_server) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.13")  \n'}
+[1.272266] (guiderobot_server) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13") \n'}
+[1.297507] (guiderobot_server) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[1.304420] (-) TimerEvent: {}
+[1.404687] (-) TimerEvent: {}
+[1.422135] (guiderobot_server) StdoutLine: {'line': b'-- Found rclcpp_action: 28.1.21 (/opt/ros/jazzy/share/rclcpp_action/cmake)\n'}
+[1.493609] (guiderobot_server) StdoutLine: {'line': b'-- Found std_msgs: 5.3.8 (/opt/ros/jazzy/share/std_msgs/cmake)\n'}
+[1.504829] (-) TimerEvent: {}
+[1.519313] (guiderobot_server) StdoutLine: {'line': b'-- Found nav2_msgs: 1.3.12 (/opt/ros/jazzy/share/nav2_msgs/cmake)\n'}
+[1.604932] (-) TimerEvent: {}
+[1.705297] (-) TimerEvent: {}
+[1.806066] (-) TimerEvent: {}
+[1.906360] (-) TimerEvent: {}
+[2.006653] (-) TimerEvent: {}
+[2.106976] (-) TimerEvent: {}
+[2.207329] (-) TimerEvent: {}
+[2.308028] (-) TimerEvent: {}
+[2.408282] (-) TimerEvent: {}
+[2.508542] (-) TimerEvent: {}
+[2.608850] (-) TimerEvent: {}
+[2.709359] (-) TimerEvent: {}
+[2.809714] (-) TimerEvent: {}
+[2.910420] (-) TimerEvent: {}
+[3.010714] (-) TimerEvent: {}
+[3.111561] (-) TimerEvent: {}
+[3.211803] (-) TimerEvent: {}
+[3.312396] (-) TimerEvent: {}
+[3.413715] (-) TimerEvent: {}
+[3.514027] (-) TimerEvent: {}
+[3.615631] (-) TimerEvent: {}
+[3.718526] (-) TimerEvent: {}
+[3.818786] (-) TimerEvent: {}
+[3.920424] (-) TimerEvent: {}
+[4.020809] (-) TimerEvent: {}
+[4.121127] (-) TimerEvent: {}
+[4.178618] (guiderobot_server) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[4.221261] (-) TimerEvent: {}
+[4.278797] (guiderobot_server) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[4.280258] (guiderobot_server) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[4.321392] (-) TimerEvent: {}
+[4.421678] (-) TimerEvent: {}
+[4.522239] (-) TimerEvent: {}
+[4.558606] (guiderobot_server) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)\n'}
+[4.622400] (-) TimerEvent: {}
+[4.691756] (guiderobot_server) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[4.694522] (guiderobot_server) StdoutLine: {'line': b"-- Added test 'cppcheck' to perform static code analysis on C / C++ code\n"}
+[4.694701] (guiderobot_server) StdoutLine: {'line': b'-- Configured cppcheck include dirs: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/src/guiderobot_server/include\n'}
+[4.694755] (guiderobot_server) StdoutLine: {'line': b'-- Configured cppcheck exclude dirs and/or files: \n'}
+[4.696924] (guiderobot_server) StdoutLine: {'line': b"-- Added test 'cpplint' to check C / C++ code against the Google style\n"}
+[4.697071] (guiderobot_server) StdoutLine: {'line': b'-- Configured cpplint exclude dirs and/or files: \n'}
+[4.698342] (guiderobot_server) StdoutLine: {'line': b"-- Added test 'flake8' to check Python code syntax and style conventions\n"}
+[4.698510] (guiderobot_server) StdoutLine: {'line': b"-- Configured 'flake8' exclude dirs and/or files: \n"}
+[4.699793] (guiderobot_server) StdoutLine: {'line': b"-- Added test 'lint_cmake' to check CMake code style\n"}
+[4.700989] (guiderobot_server) StdoutLine: {'line': b"-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257\n"}
+[4.703066] (guiderobot_server) StdoutLine: {'line': b"-- Added test 'uncrustify' to check C / C++ code style\n"}
+[4.703286] (guiderobot_server) StdoutLine: {'line': b'-- Configured uncrustify additional arguments: \n'}
+[4.704245] (guiderobot_server) StdoutLine: {'line': b"-- Added test 'xmllint' to check XML markup files\n"}
+[4.707204] (guiderobot_server) StdoutLine: {'line': b'-- Configuring done (4.7s)\n'}
+[4.722563] (-) TimerEvent: {}
+[4.725349] (guiderobot_server) StdoutLine: {'line': b'-- Generating done (0.0s)\n'}
+[4.732981] (guiderobot_server) StdoutLine: {'line': b'-- Build files have been written to: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server\n'}
+[4.745967] (guiderobot_server) CommandEnded: {'returncode': 0}
+[4.746848] (guiderobot_server) JobProgress: {'identifier': 'guiderobot_server', 'progress': 'build'}
+[4.747866] (guiderobot_server) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server', '--', '-j8', '-l8'], 'cwd': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'XDG_ACTIVATION_TOKEN': 'gnome-shell/Terminator/2795-7-ubuntu24_TIME17410120', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share', 'USER': 'ubuntu', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'wayland', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge/lib:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/ubuntu', 'OLDPWD': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen', 'DESKTOP_SESSION': 'ubuntu', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/terminator.desktop', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'MANAGERPID': '2551', 'SYSTEMD_EXEC_PID': '2795', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '13173', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install:/home/ubuntu/slam_project_v2/ros2_ws/install:/home/ubuntu/slam_project/ros2_ws/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'ubuntu', 'JOURNAL_STREAM': '10:33526', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'ubuntu', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/ubuntu/.dotnet/tools', 'SESSION_MANAGER': 'local/ubuntu24:@/tmp/.ICE-unix/2746,unix/ubuntu24:/tmp/.ICE-unix/2746', 'INVOCATION_ID': 'edaf0c560cfc4c83a8e7b588a289dc6d', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'DOTNET_BUNDLE_EXTRACT_BASE_DIR': '/home/ubuntu/.cache/dotnet_bundle_extract', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.R8QEU3', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server:/home/ubuntu/slam_project_v2/ros2_ws/install/my_world:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/home/ubuntu/slam_project/ros2_ws/install/explore_lite:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'TERMINATOR_UUID': 'urn:uuid:d7ce9b68-3d01-4e6c-ab71-02312910a777', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'GJS_DEBUG_OUTPUT': 'stderr', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server', 'TURTLEBOT3_MODEL': 'burger', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/ubuntu/slam_project/ros2_ws/build/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/my_pkg/lib/python3.12/site-packages:/home/ubuntu/slam_project/ros2_ws/build/map2gazebo:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo/lib/python3.12/site-packages:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server:/home/ubuntu/slam_project_v2/ros2_ws/install/my_world:/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge:/home/ubuntu/slam_project/ros2_ws/install/explore_lite:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/opt/ros/jazzy'}), 'shell': False}
+[4.812648] (guiderobot_server) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/guiderobot_server_node.dir/src/main.cpp.o\x1b[0m\n'}
+[4.822900] (-) TimerEvent: {}
+[4.923565] (-) TimerEvent: {}
+[5.023832] (-) TimerEvent: {}
+[5.124075] (-) TimerEvent: {}
+[5.225240] (-) TimerEvent: {}
+[5.325582] (-) TimerEvent: {}
+[5.426584] (-) TimerEvent: {}
+[5.527311] (-) TimerEvent: {}
+[5.627755] (-) TimerEvent: {}
+[5.728116] (-) TimerEvent: {}
+[5.828513] (-) TimerEvent: {}
+[5.929012] (-) TimerEvent: {}
+[6.029307] (-) TimerEvent: {}
+[6.129586] (-) TimerEvent: {}
+[6.229885] (-) TimerEvent: {}
+[6.331116] (-) TimerEvent: {}
+[6.431404] (-) TimerEvent: {}
+[6.531686] (-) TimerEvent: {}
+[6.632240] (-) TimerEvent: {}
+[6.732541] (-) TimerEvent: {}
+[6.832826] (-) TimerEvent: {}
+[6.935422] (-) TimerEvent: {}
+[7.035696] (-) TimerEvent: {}
+[7.136305] (-) TimerEvent: {}
+[7.236690] (-) TimerEvent: {}
+[7.337026] (-) TimerEvent: {}
+[7.438430] (-) TimerEvent: {}
+[7.538727] (-) TimerEvent: {}
+[7.639031] (-) TimerEvent: {}
+[7.739313] (-) TimerEvent: {}
+[7.839706] (-) TimerEvent: {}
+[7.940326] (-) TimerEvent: {}
+[8.040633] (-) TimerEvent: {}
+[8.140943] (-) TimerEvent: {}
+[8.241311] (-) TimerEvent: {}
+[8.341630] (-) TimerEvent: {}
+[8.442864] (-) TimerEvent: {}
+[8.544376] (-) TimerEvent: {}
+[8.644648] (-) TimerEvent: {}
+[8.745242] (-) TimerEvent: {}
+[8.846478] (-) TimerEvent: {}
+[8.947582] (-) TimerEvent: {}
+[9.047856] (-) TimerEvent: {}
+[9.148146] (-) TimerEvent: {}
+[9.248451] (-) TimerEvent: {}
+[9.348757] (-) TimerEvent: {}
+[9.449160] (-) TimerEvent: {}
+[9.549565] (-) TimerEvent: {}
+[9.650182] (-) TimerEvent: {}
+[9.750500] (-) TimerEvent: {}
+[9.850913] (-) TimerEvent: {}
+[9.951184] (-) TimerEvent: {}
+[10.051428] (-) TimerEvent: {}
+[10.151750] (-) TimerEvent: {}
+[10.252094] (-) TimerEvent: {}
+[10.352464] (-) TimerEvent: {}
+[10.452981] (-) TimerEvent: {}
+[10.553257] (-) TimerEvent: {}
+[10.653549] (-) TimerEvent: {}
+[10.754070] (-) TimerEvent: {}
+[10.854375] (-) TimerEvent: {}
+[10.954652] (-) TimerEvent: {}
+[11.054940] (-) TimerEvent: {}
+[11.155207] (-) TimerEvent: {}
+[11.255449] (-) TimerEvent: {}
+[11.357728] (-) TimerEvent: {}
+[11.458049] (-) TimerEvent: {}
+[11.558340] (-) TimerEvent: {}
+[11.658817] (-) TimerEvent: {}
+[11.759527] (-) TimerEvent: {}
+[11.859903] (-) TimerEvent: {}
+[11.960441] (-) TimerEvent: {}
+[12.060763] (-) TimerEvent: {}
+[12.161413] (-) TimerEvent: {}
+[12.261724] (-) TimerEvent: {}
+[12.362219] (-) TimerEvent: {}
+[12.462443] (-) TimerEvent: {}
+[12.562760] (-) TimerEvent: {}
+[12.663022] (-) TimerEvent: {}
+[12.764174] (-) TimerEvent: {}
+[12.864463] (-) TimerEvent: {}
+[12.964830] (-) TimerEvent: {}
+[13.065108] (-) TimerEvent: {}
+[13.165413] (-) TimerEvent: {}
+[13.265721] (-) TimerEvent: {}
+[13.366142] (-) TimerEvent: {}
+[13.466630] (-) TimerEvent: {}
+[13.566985] (-) TimerEvent: {}
+[13.667244] (-) TimerEvent: {}
+[13.767612] (-) TimerEvent: {}
+[13.867867] (-) TimerEvent: {}
+[13.968215] (-) TimerEvent: {}
+[14.068995] (-) TimerEvent: {}
+[14.169256] (-) TimerEvent: {}
+[14.269531] (-) TimerEvent: {}
+[14.369838] (-) TimerEvent: {}
+[14.470093] (-) TimerEvent: {}
+[14.570381] (-) TimerEvent: {}
+[14.673723] (-) TimerEvent: {}
+[14.774007] (-) TimerEvent: {}
+[14.874337] (-) TimerEvent: {}
+[14.975593] (-) TimerEvent: {}
+[15.077052] (-) TimerEvent: {}
+[15.177599] (-) TimerEvent: {}
+[15.278335] (-) TimerEvent: {}
+[15.378751] (-) TimerEvent: {}
+[15.479123] (-) TimerEvent: {}
+[15.580353] (-) TimerEvent: {}
+[15.680651] (-) TimerEvent: {}
+[15.780908] (-) TimerEvent: {}
+[15.881259] (-) TimerEvent: {}
+[15.981644] (-) TimerEvent: {}
+[16.082128] (-) TimerEvent: {}
+[16.182509] (-) TimerEvent: {}
+[16.282763] (-) TimerEvent: {}
+[16.371080] (guiderobot_server) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable guiderobot_server_node\x1b[0m\n'}
+[16.382882] (-) TimerEvent: {}
+[16.484212] (-) TimerEvent: {}
+[16.584919] (-) TimerEvent: {}
+[16.685231] (-) TimerEvent: {}
+[16.785581] (-) TimerEvent: {}
+[16.885905] (-) TimerEvent: {}
+[16.988492] (-) TimerEvent: {}
+[17.088866] (-) TimerEvent: {}
+[17.138400] (guiderobot_server) StdoutLine: {'line': b'[100%] Built target guiderobot_server_node\n'}
+[17.153872] (guiderobot_server) CommandEnded: {'returncode': 0}
+[17.154831] (guiderobot_server) JobProgress: {'identifier': 'guiderobot_server', 'progress': 'install'}
+[17.164724] (guiderobot_server) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server'], 'cwd': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server', 'env': OrderedDict({'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'XDG_ACTIVATION_TOKEN': 'gnome-shell/Terminator/2795-7-ubuntu24_TIME17410120', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share', 'USER': 'ubuntu', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'wayland', 'CLUTTER_DISABLE_MIPMAPPED_TEXT': '1', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge/lib:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/ubuntu', 'OLDPWD': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen', 'DESKTOP_SESSION': 'ubuntu', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/terminator.desktop', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'MANAGERPID': '2551', 'SYSTEMD_EXEC_PID': '2795', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator25ef4b219e3b005583550f2b0f9f990c3', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '13173', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install:/home/ubuntu/slam_project_v2/ros2_ws/install:/home/ubuntu/slam_project/ros2_ws/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'ubuntu', 'JOURNAL_STREAM': '10:33526', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'ubuntu', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'PATH': '/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/ubuntu/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/ubuntu/.dotnet/tools', 'SESSION_MANAGER': 'local/ubuntu24:@/tmp/.ICE-unix/2746,unix/ubuntu24:/tmp/.ICE-unix/2746', 'INVOCATION_ID': 'edaf0c560cfc4c83a8e7b588a289dc6d', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'DOTNET_BUNDLE_EXTRACT_BASE_DIR': '/home/ubuntu/.cache/dotnet_bundle_extract', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.R8QEU3', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server:/home/ubuntu/slam_project_v2/ros2_ws/install/my_world:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/home/ubuntu/slam_project/ros2_ws/install/explore_lite:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'TERMINATOR_UUID': 'urn:uuid:d7ce9b68-3d01-4e6c-ab71-02312910a777', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'GJS_DEBUG_OUTPUT': 'stderr', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server', 'TURTLEBOT3_MODEL': 'burger', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/ubuntu/slam_project/ros2_ws/build/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/my_pkg/lib/python3.12/site-packages:/home/ubuntu/slam_project/ros2_ws/build/map2gazebo:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo/lib/python3.12/site-packages:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server:/home/ubuntu/slam_project_v2/ros2_ws/install/my_world:/home/ubuntu/slam_project/ros2_ws/install/multirobot_map_merge:/home/ubuntu/slam_project/ros2_ws/install/explore_lite:/home/ubuntu/slam_project/ros2_ws/install/explore_lite_msgs:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/opt/ros/jazzy'}), 'shell': False}
+[17.173993] (guiderobot_server) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[17.174387] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/include/httplib.h\n'}
+[17.174724] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/cmake/httplib/httplibConfig.cmake\n'}
+[17.175011] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/cmake/httplib/httplibConfigVersion.cmake\n'}
+[17.175296] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/cmake/httplib/FindBrotli.cmake\n'}
+[17.175349] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/cmake/httplib/httplibTargets.cmake\n'}
+[17.175408] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/doc/httplib/README.md\n'}
+[17.175477] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/licenses/httplib/LICENSE\n'}
+[17.175526] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/guiderobot_server/guiderobot_server_node\n'}
+[17.181545] (guiderobot_server) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/guiderobot_server/guiderobot_server_node" to ""\n'}
+[17.181679] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/config\n'}
+[17.181745] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/config/destinations.yaml\n'}
+[17.181807] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/launch\n'}
+[17.181863] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/launch/server.launch.py\n'}
+[17.182017] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/ament_index/resource_index/package_run_dependencies/guiderobot_server\n'}
+[17.182302] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/ament_index/resource_index/parent_prefix_path/guiderobot_server\n'}
+[17.182471] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/environment/ament_prefix_path.sh\n'}
+[17.182653] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/environment/ament_prefix_path.dsv\n'}
+[17.182703] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/environment/path.sh\n'}
+[17.182748] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/environment/path.dsv\n'}
+[17.183619] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/local_setup.bash\n'}
+[17.183746] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/local_setup.sh\n'}
+[17.186685] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/local_setup.zsh\n'}
+[17.187066] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/local_setup.dsv\n'}
+[17.187174] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/package.dsv\n'}
+[17.187344] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/ament_index/resource_index/packages/guiderobot_server\n'}
+[17.187408] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/cmake/guiderobot_serverConfig.cmake\n'}
+[17.187459] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/cmake/guiderobot_serverConfig-version.cmake\n'}
+[17.188006] (guiderobot_server) StdoutLine: {'line': b'-- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/package.xml\n'}
+[17.188938] (-) TimerEvent: {}
+[17.189803] (guiderobot_server) CommandEnded: {'returncode': 0}
+[17.205613] (guiderobot_server) JobEnded: {'identifier': 'guiderobot_server', 'rc': 0}
+[17.206444] (-) EventReactorShutdown: {}

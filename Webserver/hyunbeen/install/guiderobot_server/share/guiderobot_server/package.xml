@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>guiderobot_server</name>
+  <version>0.1.0</version>
+  <description>
+    GuideRobot 프로젝트의 C++ Robot API 서버.
+    Qt 관리자 화면 / 웹 사용자 HMI가 호출하는 REST API(/api/status, /api/command)와
+    정적 웹 파일을 제공하며, 동시에 ROS2 노드로 동작하여 /manual_mode 토픽을 구독하고
+    Nav2 액션 클라이언트를 통해 목적지 이동을 수행한다.
+  </description>
+  <maintainer email="hyunbeen@example.com">Hyunbeen</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>std_msgs</depend>
+  <depend>nav2_msgs</depend>
+  <depend>geometry_msgs</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

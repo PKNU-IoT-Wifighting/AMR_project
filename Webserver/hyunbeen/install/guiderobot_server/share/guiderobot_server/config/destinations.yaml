@@ -1,0 +1,28 @@
+guiderobot_server_node:
+  ros__parameters:
+    static_web_root: "./web"   # GuideRobot.StaticHmi 파일들이 있는 실제 경로로 수정
+    http_port: 8080
+
+    # 아래 좌표는 전부 예시값(0,0)이다.
+    # 실제 지도(map) 프레임 기준 좌표로 팀원 A/B가 만든 지도를 보고 반드시 채워 넣을 것.
+    destinations:
+      restroom:
+        x: 0.0
+        y: 0.0
+        yaw: 0.0
+        frame_id: "map"
+      room_301:
+        x: 0.0
+        y: 0.0
+        yaw: 0.0
+        frame_id: "map"
+      room_302:
+        x: 0.0
+        y: 0.0
+        yaw: 0.0
+        frame_id: "map"
+      elevator:
+        x: 0.0
+        y: 0.0
+        yaw: 0.0
+        frame_id: "map"

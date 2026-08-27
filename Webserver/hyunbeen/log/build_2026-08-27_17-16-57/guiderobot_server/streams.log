@@ -1,0 +1,33 @@
+[0.015s] Invoking command in '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server -- -j8 -l8
+[0.100s] [100%] Built target guiderobot_server_node
+[0.104s] Invoked command in '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server -- -j8 -l8
+[0.115s] Invoking command in '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server
+[0.124s] -- Install configuration: ""
+[0.125s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/include/httplib.h
+[0.125s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/cmake/httplib/httplibConfig.cmake
+[0.125s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/cmake/httplib/httplibConfigVersion.cmake
+[0.125s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/cmake/httplib/FindBrotli.cmake
+[0.125s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/cmake/httplib/httplibTargets.cmake
+[0.125s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/doc/httplib/README.md
+[0.125s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/licenses/httplib/LICENSE
+[0.126s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/lib/guiderobot_server/guiderobot_server_node
+[0.127s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/config
+[0.127s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/config/destinations.yaml
+[0.127s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/launch
+[0.127s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/launch/server.launch.py
+[0.128s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/ament_index/resource_index/package_run_dependencies/guiderobot_server
+[0.128s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/ament_index/resource_index/parent_prefix_path/guiderobot_server
+[0.128s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/environment/ament_prefix_path.sh
+[0.128s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/environment/ament_prefix_path.dsv
+[0.128s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/environment/path.sh
+[0.128s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/environment/path.dsv
+[0.128s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/local_setup.bash
+[0.128s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/local_setup.sh
+[0.129s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/local_setup.zsh
+[0.129s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/local_setup.dsv
+[0.129s] -- Installing: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/package.dsv
+[0.129s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/ament_index/resource_index/packages/guiderobot_server
+[0.130s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/cmake/guiderobot_serverConfig.cmake
+[0.130s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/cmake/guiderobot_serverConfig-version.cmake
+[0.130s] -- Up-to-date: /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/install/guiderobot_server/share/guiderobot_server/package.xml
+[0.139s] Invoked command in '/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/ubuntu/slam_project/ros2_ws/install/my_pkg:/home/ubuntu/slam_project/ros2_ws/install/map2gazebo:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server

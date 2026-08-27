@@ -17,7 +17,7 @@ HTML, CSS, JavaScript는 서로 다른 역할을 담당하며 함께 사용됩�
 | HTML | 화면의 구조와 내용 | 목적지 버튼, 안내 확인창, 관리자 제어창 |
 | CSS | 색상·크기·배치·반응형 디자인 | 버튼 색상, 카드 배치, 1024×600 화면 대응 |
 | JavaScript | 사용자의 조작과 화면 동작 | 버튼 클릭, 서버 요청, 수동모드 및 도착 화면 전환 |
-| Spring Boot 서버 | 로봇·ROS와 웹 사이의 데이터 처리 | 목적지 좌표 전달, 수동모드 상태 제공, 도착 상태 제공 예정 |
+| Spring Boot 서버 | 로봇·ROS와 웹 사이의 데이터 처리 | 목적지 좌표 전달, 수동모드와 도착 상태 관리 |
 
 따라서 기존 CSS 디자인은 그대로 사용되고 있으며, JavaScript가 그 디자인을 움직이게 만드는 역할을 합니다.
 
@@ -26,7 +26,7 @@ HTML, CSS, JavaScript는 서로 다른 역할을 담당하며 함께 사용됩�
 사용자 UI 원본:
 
 ```text
-Jaewook/GuideRobot/GuideRobot.StaticHmi/
+Jaewook/user-ui-template/
 ├─ index.html
 ├─ app.css
 ├─ app.js
@@ -212,7 +212,7 @@ Spring Boot 서버는 이 명령을 받으면 설정된 `/cmd_vel` 토픽에 `li
 
 ## 6. JavaScript에서 공부할 부분
 
-JavaScript 파일은 `GuideRobot.StaticHmi/app.js`입니다.
+JavaScript 파일은 `user-ui-template/app.js`입니다.
 
 ### `const`와 `let`
 
@@ -303,7 +303,7 @@ if (hasArrived) {
 
 ## 7. CSS에서 공부할 부분
 
-CSS 파일은 `GuideRobot.StaticHmi/app.css`입니다.
+CSS 파일은 `user-ui-template/app.css`입니다.
 
 ### CSS 변수
 
@@ -448,3 +448,11 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 - Gradle 자동 테스트와 배포 JAR 생성 확인 완료
 
 이후 작업이 생기면 날짜별로 이 아래에 변경 이유, 수정한 파일, 확인 결과를 계속 추가합니다.
+
+## 14. 2026-08-27 폴더 정리 기록
+
+- 재사용 가능한 정적 UI 원본을 `Jaewook/user-ui-template`로 분리
+- 프로젝트·학습 문서를 `Jaewook/docs`로 분류
+- 이전 C++ 서버와 .NET Web HMI 자료를 `Jaewook/legacy`로 이동
+- 최상위 `README.md`에 현재 사용 위치, 재사용 방법, 과거 자료 구분 추가
+- UI 템플릿의 API 규격과 파일별 수정 위치를 별도 README에 정리

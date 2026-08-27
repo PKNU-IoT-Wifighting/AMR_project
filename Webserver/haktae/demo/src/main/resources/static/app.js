@@ -246,12 +246,12 @@ async function refreshStatus() {
         }
 
         const status = await response.json();
-        const manualMode = status.manualMode === true;
-        let changed = !state.isStatusReady || manualMode !== state.isManualMode;
+        const isManualMode = status.manual_mode === true;
+        let changed = !state.isStatusReady || isManualMode !== state.isManualMode;
 
         state.isStatusReady = true;
-        state.isManualMode = manualMode;
-        if (manualMode && state.isConfirmationOpen) {
+        state.isManualMode = isManualMode;
+        if (isManualMode && state.isConfirmationOpen) {
             state.isConfirmationOpen = false;
             changed = true;
         }

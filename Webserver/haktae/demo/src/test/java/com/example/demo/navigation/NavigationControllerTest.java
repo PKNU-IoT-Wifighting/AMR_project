@@ -81,14 +81,14 @@ class NavigationControllerTest {
                 .content("{\"command\":\"stop\"}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.command").value("stop"))
-            .andExpect(jsonPath("$.manualMode").value(true));
+            .andExpect(jsonPath("$.manual_mode").value(true));
 
         // The attached Qt client sends the same payload when toggled off.
         mockMvc.perform(post("/api/command")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"command\":\"stop\"}"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.manualMode").value(false));
+            .andExpect(jsonPath("$.manual_mode").value(false));
 
         verifyNoInteractions(publisher);
     }
@@ -101,7 +101,7 @@ class NavigationControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"destination\":\"301\"}"))
             .andExpect(status().isConflict())
-            .andExpect(jsonPath("$.manualMode").value(true));
+            .andExpect(jsonPath("$.manual_mode").value(true));
 
         verifyNoInteractions(publisher);
     }
@@ -110,15 +110,24 @@ class NavigationControllerTest {
     void acceptsExplicitManualModeStateFromNewQtClient() throws Exception {
         mockMvc.perform(post("/api/command")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"command\":\"stop\",\"manualMode\":true}"))
+                .content("{\"command\":\"stop\",\"manual_mode\":true}"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.manualMode").value(true));
+            .andExpect(jsonPath("$.manual_mode").value(true));
 
         mockMvc.perform(post("/api/command")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"command\":\"stop\",\"manualMode\":false}"))
+                .content("{\"command\":\"stop\",\"manual_mode\":false}"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.manualMode").value(false));
+            .andExpect(jsonPath("$.manual_mode").value(false));
+    }
+
+    @Test
+    void acceptsLegacyCamelCaseManualModeField() throws Exception {
+        mockMvc.perform(post("/api/command")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"command\":\"stop\",\"manualMode\":true}"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.manual_mode").value(true));
     }
 
     @Test

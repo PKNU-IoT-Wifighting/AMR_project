@@ -73,13 +73,13 @@ GET /api/status
 
 ```json
 {
-  "manualMode": false,
+  "manual_mode": false,
   "navigationStatus": "moving"
 }
 ```
 
-- `manualMode: true`: “관리자가 제어 중입니다” 전체 화면 표시
-- `manualMode: false`: 관리자 제어 화면 해제
+- `manual_mode: true`: “관리자가 제어 중입니다” 전체 화면 표시
+- `manual_mode: false`: 관리자 제어 화면 해제
 - `navigationStatus: "arrived"`: “목적지에 도착했습니다” 화면 표시
 
 도착 상태는 호환을 위해 `navigation_status`, `status`, `arrived: true` 형식도 인식합니다.
@@ -98,4 +98,3 @@ GET /api/status
 `index.html`만 브라우저로 열어 디자인을 볼 수 있지만 서버 API가 없으므로 통신 오류가 표시될 수 있습니다. 전체 동작은 Spring Boot 서버를 실행한 뒤 `http://localhost:8080/`에서 확인합니다.
 
 UI의 제작 과정과 JavaScript·CSS 설명은 [`../docs/USER_UI_DEVELOPMENT_NOTES.md`](../docs/USER_UI_DEVELOPMENT_NOTES.md)를 참고합니다.
-

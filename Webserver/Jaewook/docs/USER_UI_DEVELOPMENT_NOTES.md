@@ -83,7 +83,7 @@ http://서버주소:8080/
 | 화장실 ID | `restroom` | `toilet` |
 | 301호 ID | `room_301` | `301` |
 | 302호 ID | `room_302` | `302` |
-| 수동모드 필드 | `manual_mode` | `manualMode` |
+| 수동모드 필드 | `manual_mode` | `manual_mode` |
 | 도착 상태 | `status: "arrived"` | `navigationStatus: "arrived"` |
 
 ### 4단계: 안내 취소 제거 후 복원
@@ -162,12 +162,12 @@ Content-Type: application/json
 GET /api/status
 ```
 
-앞으로 서버가 제공해야 하는 응답 예시:
+현재 서버 응답 예시:
 
 ```json
 {
   "status": "ok",
-  "manualMode": false,
+  "manual_mode": false,
   "navigationStatus": "moving"
 }
 ```
@@ -175,7 +175,7 @@ GET /api/status
 각 필드의 의미:
 
 - `status`: 서버 자체가 정상인지 나타냄
-- `manualMode`: 관리자가 로봇을 수동으로 제어 중인지 나타냄
+- `manual_mode`: 관리자가 로봇을 수동으로 제어 중인지 나타냄
 - `navigationStatus`: 로봇의 이동 상태를 나타냄
 
 `navigationStatus` 값은 다음과 같이 사용할 예정입니다.
@@ -361,7 +361,7 @@ JavaScript가 HTML 요소에 `hidden` 속성을 설정하면 CSS가 해당 요�
 
 ```text
 관리자 화면
-  ↓ manualMode 변경 요청
+  ↓ manual_mode 변경 요청
 Spring Boot 서버
   ↓ GET /api/status 응답
 사용자 UI
@@ -369,7 +369,7 @@ Spring Boot 서버
 “관리자가 제어 중입니다” 전체 화면 표시 또는 해제
 ```
 
-`manualMode`가 `true`이면 목적지 선택과 안내 시작을 막고 전체 화면 안내창을 표시합니다. `false`가 되면 창을 자동으로 숨깁니다.
+`manual_mode`가 `true`이면 목적지 선택과 안내 시작을 막고 전체 화면 안내창을 표시합니다. `false`가 되면 창을 자동으로 숨깁니다.
 
 ## 9. 도착 상태의 담당 범위
 
@@ -435,7 +435,7 @@ Spring Boot 서버가 신호를 받아 navigationStatus를 arrived로 변경
 - `Web_server` 브랜치의 haktae Spring Boot 서버에 사용자 UI 통합
 - Jaewook의 기존 사용자 UI 디자인을 haktae Spring Boot 서버에 적용
 - 목적지 ID와 전송 API를 새 서버 규격에 맞춤
-- `manualMode` 수동제어 화면 연결
+- `manual_mode` 수동제어 화면 연결
 - 서버 기능이 준비되기 전 안내 취소 기능을 제거
 - 서버의 정지 토픽 발행 계획에 맞춰 안내 취소 버튼과 요청을 다시 복원
 - `navigationStatus`, `navigation_status`, `status`, `arrived` 도착 응답 호환 처리

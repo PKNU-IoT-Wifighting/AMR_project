@@ -8,6 +8,9 @@ import java.util.Map;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +45,7 @@ public class NavigationController {
         return Map.of(
             "status", "ok",
             "goalTopic", properties.goalTopic(),
-            "manualMode", manualControlState.isActive(),
+            "manual_mode", manualControlState.isActive(),
             "navigationStatus", navigationState.getStatus(),
             "timestamp", Instant.now().toString());
     }
@@ -91,14 +94,14 @@ public class NavigationController {
         if ("stop".equalsIgnoreCase(request.command())) {
             // In the Qt protocol, "stop" means that manual control is in
             // progress. It is an acknowledgement, not a /cmd_vel command.
-            // Old Qt clients omit manualMode, so toggle for compatibility.
+            // Old Qt clients omit the explicit state, so toggle for compatibility.
             boolean manualMode = request.manualMode() == null
                 ? manualControlState.toggle()
                 : manualControlState.setActive(request.manualMode());
             return Map.of(
                 "status", "ok",
                 "command", "stop",
-                "manualMode", manualMode,
+                "manual_mode", manualMode,
                 "message", "manual control acknowledged");
         }
         throw new IllegalArgumentException("지원하지 않는 명령입니다: " + request.command());
@@ -121,13 +124,16 @@ public class NavigationController {
     public Map<String, Object> manualControlActive(ManualControlActiveException exception) {
         return Map.of(
             "error", exception.getMessage(),
-            "manualMode", true);
+            "manual_mode", true);
     }
 
     public record NavigationRequest(@NotBlank String destination) {
     }
 
-    public record CommandRequest(@NotBlank String command, Boolean manualMode) {
+    public record CommandRequest(
+        @NotBlank String command,
+        @JsonProperty("manual_mode") @JsonAlias("manualMode") Boolean manualMode
+    ) {
     }
 
     public record NavigationStatusRequest(@NotBlank String status) {

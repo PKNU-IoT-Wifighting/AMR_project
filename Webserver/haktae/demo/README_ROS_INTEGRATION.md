@@ -62,7 +62,7 @@ Content-Type: application/json
 ```json
 {
   "status": "ok",
-  "manualMode": false,
+  "manual_mode": false,
   "navigationStatus": "arrived"
 }
 ```

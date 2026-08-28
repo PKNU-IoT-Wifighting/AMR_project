@@ -545,6 +545,7 @@ ManagerScreen_autogen/timestamp: \
   CMakeFiles/3.28.3/CMakeCXXCompiler.cmake \
   CMakeFiles/3.28.3/CMakeSystem.cmake \
   ManagerScreen_autogen/moc_predefs.h \
+  /home/ubuntu/wifiting_ws/ManagerScreen/cmd_vel_reader.py \
   /home/ubuntu/wifiting_ws/ManagerScreen/main.cpp \
   /home/ubuntu/wifiting_ws/ManagerScreen/mainwindow.cpp \
   /home/ubuntu/wifiting_ws/ManagerScreen/mainwindow.h \

@@ -460,8 +460,16 @@ void MainWindow::startVelocityPublisher(QProcess *process,
         process->setStandardErrorFile(QProcess::nullDevice());
         const QString helper = QCoreApplication::applicationDirPath()
                                + QStringLiteral("/velocity_publisher.py");
-        process->start(QStringLiteral("/usr/bin/python3"),
-                       {helper, kVelocityTopic});
+        // Qt Creator or a directly launched binary may not inherit a sourced
+        // ROS environment. Source Jazzy for the helper process explicitly.
+        process->start(
+            QStringLiteral("/bin/bash"),
+            {QStringLiteral("-c"),
+             QStringLiteral("source /opt/ros/jazzy/setup.bash && "
+                            "exec /usr/bin/python3 \"$1\" \"$2\""),
+             QStringLiteral("manager-screen-velocity"),
+             helper,
+             kVelocityTopic});
         if (!process->waitForStarted(2000))
             return;
     }

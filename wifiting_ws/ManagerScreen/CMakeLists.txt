@@ -32,6 +32,12 @@ configure_file(
 )
 
 configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_vel_reader.py
+    ${CMAKE_CURRENT_BINARY_DIR}/cmd_vel_reader.py
+    COPYONLY
+)
+
+configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/manager-screen.in
     ${CMAKE_CURRENT_BINARY_DIR}/manager-screen
     @ONLY
@@ -59,6 +65,7 @@ install(PROGRAMS
     ${CMAKE_CURRENT_BINARY_DIR}/manager-screen
     ${CMAKE_CURRENT_SOURCE_DIR}/velocity_publisher.py
     ${CMAKE_CURRENT_SOURCE_DIR}/ros_status_monitor.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmd_vel_reader.py
     DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 

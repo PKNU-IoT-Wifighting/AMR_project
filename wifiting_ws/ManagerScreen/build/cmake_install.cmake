@@ -67,6 +67,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     "/home/ubuntu/wifiting_ws/ManagerScreen/build/manager-screen"
     "/home/ubuntu/wifiting_ws/ManagerScreen/velocity_publisher.py"
     "/home/ubuntu/wifiting_ws/ManagerScreen/ros_status_monitor.py"
+    "/home/ubuntu/wifiting_ws/ManagerScreen/cmd_vel_reader.py"
     )
 endif()
 

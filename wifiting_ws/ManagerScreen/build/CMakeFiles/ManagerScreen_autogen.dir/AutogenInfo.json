@@ -524,6 +524,7 @@
 		"/usr/share/cmake-3.28/Modules/GNUInstallDirs.cmake",
 		"/home/ubuntu/wifiting_ws/ManagerScreen/velocity_publisher.py",
 		"/home/ubuntu/wifiting_ws/ManagerScreen/ros_status_monitor.py",
+		"/home/ubuntu/wifiting_ws/ManagerScreen/cmd_vel_reader.py",
 		"/home/ubuntu/wifiting_ws/ManagerScreen/manager-screen.in",
 		"/usr/share/cmake-3.28/Modules/CPack.cmake",
 		"/usr/share/cmake-3.28/Modules/CPackComponent.cmake",

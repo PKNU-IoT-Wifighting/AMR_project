@@ -64,34 +64,17 @@ CMAKE_BINARY_DIR = /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/g
 
 # The main recursive "all" target.
 all: CMakeFiles/guiderobot_server_node.dir/all
-all: _deps/httplib-build/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: _deps/httplib-build/preinstall
+preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/uninstall.dir/clean
 clean: CMakeFiles/guiderobot_server_uninstall.dir/clean
 clean: CMakeFiles/guiderobot_server_node.dir/clean
-clean: _deps/httplib-build/clean
 .PHONY : clean
-
-#=============================================================================
-# Directory level rules for directory _deps/httplib-build
-
-# Recursive "all" directory target.
-_deps/httplib-build/all:
-.PHONY : _deps/httplib-build/all
-
-# Recursive "preinstall" directory target.
-_deps/httplib-build/preinstall:
-.PHONY : _deps/httplib-build/preinstall
-
-# Recursive "clean" directory target.
-_deps/httplib-build/clean:
-.PHONY : _deps/httplib-build/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/uninstall.dir

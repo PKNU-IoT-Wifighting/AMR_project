@@ -42,11 +42,6 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/cmake_install.cmake")
-endif()
-
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/guiderobot_server/guiderobot_server_node" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/guiderobot_server/guiderobot_server_node")
@@ -76,6 +71,10 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     "/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/src/guiderobot_server/config"
     "/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/src/guiderobot_server/launch"
     )
+endif()
+
+if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/guiderobot_server/web" TYPE DIRECTORY FILES "/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/src/guiderobot_server/../../web/")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)

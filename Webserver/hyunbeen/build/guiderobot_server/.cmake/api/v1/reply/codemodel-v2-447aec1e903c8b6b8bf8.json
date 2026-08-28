@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-5ae8386e6461ec62a9cd.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "guiderobot_server",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "guiderobot_server_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-guiderobot_server_node-0c7eb56f85453ad3b8cb.json",
+					"name" : "guiderobot_server_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "guiderobot_server_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-guiderobot_server_uninstall-600c8ae2ce75197cc8ee.json",
+					"name" : "guiderobot_server_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-9b67b4db623efc7d99b0.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server",
+		"source" : "/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/src/guiderobot_server"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

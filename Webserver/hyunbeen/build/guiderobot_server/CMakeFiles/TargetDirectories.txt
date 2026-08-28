@@ -1,8 +1,6 @@
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/uninstall.dir
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/guiderobot_server_uninstall.dir
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/guiderobot_server_node.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/package.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/package_source.dir
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/test.dir
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/edit_cache.dir
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/rebuild_cache.dir
@@ -10,12 +8,3 @@
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/install.dir
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/install/local.dir
 /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/CMakeFiles/install/strip.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/package.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/package_source.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/test.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/edit_cache.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/rebuild_cache.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/list_install_components.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/install.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/install/local.dir
-/home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-build/CMakeFiles/install/strip.dir

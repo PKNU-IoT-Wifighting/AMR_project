@@ -151,8 +151,8 @@ CMakeFiles/guiderobot_server_node.dir/src/main.cpp.o: \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/13/bits/std_mutex.h \
- /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/string \
- /usr/include/c++/13/bits/char_traits.h \
+ /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/stdexcept \
+ /usr/include/c++/13/string /usr/include/c++/13/bits/char_traits.h \
  /usr/include/c++/13/bits/localefwd.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++locale.h \
  /usr/include/c++/13/clocale /usr/include/locale.h \
@@ -170,7 +170,7 @@ CMakeFiles/guiderobot_server_node.dir/src/main.cpp.o: \
  /usr/include/c++/13/bits/charconv.h \
  /usr/include/c++/13/bits/basic_string.tcc /usr/include/c++/13/thread \
  /usr/include/c++/13/bits/std_thread.h \
- /usr/include/c++/13/bits/this_thread_sleep.h \
+ /usr/include/c++/13/bits/this_thread_sleep.h /usr/include/sqlite3.h \
  /home/ubuntu/webfolder/AMR_project/Webserver/hyunbeen/build/guiderobot_server/_deps/httplib-src/httplib.h \
  /usr/include/arpa/inet.h /usr/include/netinet/in.h \
  /usr/include/x86_64-linux-gnu/sys/socket.h \
@@ -255,8 +255,8 @@ CMakeFiles/guiderobot_server_node.dir/src/main.cpp.o: \
  /usr/include/c++/13/ios /usr/include/c++/13/bits/ios_base.h \
  /usr/include/c++/13/bits/locale_classes.h \
  /usr/include/c++/13/bits/locale_classes.tcc \
- /usr/include/c++/13/system_error /usr/include/c++/13/stdexcept \
- /usr/include/c++/13/streambuf /usr/include/c++/13/bits/streambuf.tcc \
+ /usr/include/c++/13/system_error /usr/include/c++/13/streambuf \
+ /usr/include/c++/13/bits/streambuf.tcc \
  /usr/include/c++/13/bits/basic_ios.h \
  /usr/include/c++/13/bits/locale_facets.h /usr/include/c++/13/cwctype \
  /usr/include/wctype.h /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
@@ -334,46 +334,7 @@ CMakeFiles/guiderobot_server_node.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
  /usr/include/c++/13/unordered_set \
  /usr/include/c++/13/bits/unordered_set.h /usr/include/c++/13/utility \
- /usr/include/c++/13/bits/stl_relops.h /usr/include/openssl/err.h \
- /usr/include/openssl/macros.h \
- /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
- /usr/include/x86_64-linux-gnu/openssl/configuration.h \
- /usr/include/openssl/opensslv.h /usr/include/openssl/e_os2.h \
- /usr/include/c++/13/stdlib.h /usr/include/openssl/types.h \
- /usr/include/openssl/safestack.h /usr/include/openssl/stack.h \
- /usr/include/openssl/bio.h /usr/include/openssl/crypto.h \
- /usr/include/openssl/cryptoerr.h /usr/include/openssl/symhacks.h \
- /usr/include/openssl/cryptoerr_legacy.h /usr/include/openssl/core.h \
- /usr/include/openssl/bioerr.h /usr/include/openssl/lhash.h \
- /usr/include/openssl/evp.h /usr/include/openssl/core_dispatch.h \
- /usr/include/openssl/evperr.h /usr/include/openssl/params.h \
- /usr/include/openssl/bn.h /usr/include/openssl/bnerr.h \
- /usr/include/openssl/objects.h /usr/include/openssl/obj_mac.h \
- /usr/include/openssl/asn1.h /usr/include/openssl/asn1err.h \
- /usr/include/openssl/objectserr.h /usr/include/openssl/ssl.h \
- /usr/include/openssl/comp.h /usr/include/openssl/comperr.h \
- /usr/include/openssl/x509.h /usr/include/openssl/buffer.h \
- /usr/include/openssl/buffererr.h /usr/include/openssl/ec.h \
- /usr/include/openssl/ecerr.h /usr/include/openssl/rsa.h \
- /usr/include/openssl/rsaerr.h /usr/include/openssl/dsa.h \
- /usr/include/openssl/dh.h /usr/include/openssl/dherr.h \
- /usr/include/openssl/dsaerr.h /usr/include/openssl/sha.h \
- /usr/include/openssl/x509err.h /usr/include/openssl/x509_vfy.h \
- /usr/include/openssl/pkcs7.h /usr/include/openssl/pkcs7err.h \
- /usr/include/openssl/http.h /usr/include/openssl/conf.h \
- /usr/include/openssl/conferr.h /usr/include/openssl/conftypes.h \
- /usr/include/openssl/pem.h /usr/include/openssl/pemerr.h \
- /usr/include/openssl/hmac.h /usr/include/openssl/async.h \
- /usr/include/openssl/asyncerr.h /usr/include/openssl/ct.h \
- /usr/include/openssl/cterr.h /usr/include/openssl/sslerr.h \
- /usr/include/openssl/sslerr_legacy.h /usr/include/openssl/prov_ssl.h \
- /usr/include/openssl/ssl2.h /usr/include/openssl/ssl3.h \
- /usr/include/openssl/tls1.h /usr/include/openssl/dtls1.h \
- /usr/include/openssl/srtp.h /usr/include/openssl/x509v3.h \
- /usr/include/openssl/x509v3err.h /usr/include/zlib.h \
- /usr/include/zconf.h /usr/include/brotli/decode.h \
- /usr/include/brotli/port.h /usr/include/brotli/shared_dictionary.h \
- /usr/include/brotli/types.h /usr/include/brotli/encode.h \
+ /usr/include/c++/13/bits/stl_relops.h \
  /opt/ros/jazzy/include/rclcpp/rclcpp/rclcpp.hpp \
  /opt/ros/jazzy/include/rclcpp/rclcpp/copy_all_parameter_values.hpp \
  /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/list_parameters.hpp \
@@ -440,6 +401,7 @@ CMakeFiles/guiderobot_server_node.dir/src/main.cpp.o: \
  /opt/ros/jazzy/include/rclcpp/rclcpp/exceptions/exceptions.hpp \
  /opt/ros/jazzy/include/rcl/rcl/error_handling.h \
  /opt/ros/jazzy/include/rcutils/rcutils/error_handling.h \
+ /usr/include/c++/13/stdlib.h \
  /opt/ros/jazzy/include/rcutils/rcutils/snprintf.h \
  /opt/ros/jazzy/include/rcutils/rcutils/testing/fault_injection.h \
  /opt/ros/jazzy/include/rcl/rcl/types.h \

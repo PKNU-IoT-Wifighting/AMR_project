@@ -1,0 +1,4 @@
+.venv/
+simulation.log
+__pycache__/
+*.py[cod]

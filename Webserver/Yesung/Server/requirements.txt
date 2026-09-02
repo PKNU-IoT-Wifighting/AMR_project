@@ -1,0 +1,6 @@
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+PyYAML>=6,<7
+
+# rclpy와 nav2_msgs는 pip 패키지가 아니라 ROS 2에서 설치합니다.
+# Ubuntu/ROS 2 Jazzy: sudo apt install ros-jazzy-rclpy ros-jazzy-nav2-msgs

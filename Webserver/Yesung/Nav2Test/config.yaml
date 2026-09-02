@@ -1,0 +1,33 @@
+server:
+  host: 0.0.0.0
+  port: 8080
+
+ros:
+  node_name: guiderobot_demo_web_server
+  action_name: /navigate_to_pose
+  manual_mode_topic: /manual_mode
+  frame_id: map
+  use_sim_time: true
+
+# ROS 2 Nav2의 tb3_sandbox 예제 맵 안에 있는 데모 목적지입니다.
+destinations:
+  restroom:
+    name: 화장실 앞
+    x: 0.0
+    y: 2.0
+    yaw: 0.0
+  room_301:
+    name: 강의실 301호
+    x: 2.0
+    y: 0.0
+    yaw: 1.57
+  room_302:
+    name: 강의실 302호
+    x: 0.0
+    y: -2.0
+    yaw: 3.14
+  elevator:
+    name: 엘리베이터 앞
+    x: -2.0
+    y: 0.0
+    yaw: -1.57

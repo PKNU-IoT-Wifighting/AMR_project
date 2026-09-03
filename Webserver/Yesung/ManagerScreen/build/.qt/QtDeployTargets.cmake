@@ -1,2 +1,0 @@
-set(__QT_DEPLOY_TARGET_ManagerScreen_FILE /home/ubuntu/wifiting_ws/ManagerScreen/build/ManagerScreen)
-set(__QT_DEPLOY_TARGET_ManagerScreen_TYPE EXECUTABLE)

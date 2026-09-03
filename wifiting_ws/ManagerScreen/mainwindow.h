@@ -37,14 +37,12 @@ private:
     void checkServerConnection();
     void setServerConnected(bool connected);
     void sendManualMode(bool enabled);
-    void publishManualMode(bool enabled);
     void publishVelocity(double linearX, double angularZ);
     void startVelocityPublisher(QProcess *process,
                                 double linearX, double angularZ);
 
     Ui::MainWindow *ui;
     QProcess *cameraProcess;
-    QProcess *manualModePublisher;
     QProcess *velocityPublisher;
     QProcess *robotStatusMonitor;
     QNetworkAccessManager *networkManager;

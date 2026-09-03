@@ -2,5 +2,6 @@
 /opt/ManagerScreen/bin/manager-screen
 /opt/ManagerScreen/bin/velocity_publisher.py
 /opt/ManagerScreen/bin/ros_status_monitor.py
+/opt/ManagerScreen/bin/cmd_vel_reader.py
 /usr/share/applications/manager-screen.desktop
 /usr/share/icons/hicolor/scalable/apps/manager-screen.svg

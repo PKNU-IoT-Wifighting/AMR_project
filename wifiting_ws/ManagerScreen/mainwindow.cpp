@@ -29,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , cameraProcess(new QProcess(this))
-    , manualModePublisher(new QProcess(this))
     , velocityPublisher(new QProcess(this))
     , robotStatusMonitor(new QProcess(this))
     , networkManager(new QNetworkAccessManager(this))
@@ -101,10 +100,6 @@ MainWindow::~MainWindow()
     velocityPublisher->terminate();
     if (!velocityPublisher->waitForFinished(500))
         velocityPublisher->kill();
-
-    manualModePublisher->terminate();
-    if (!manualModePublisher->waitForFinished(500))
-        manualModePublisher->kill();
 
     cameraProcess->terminate();
     if (!cameraProcess->waitForFinished(1000)) {
@@ -320,7 +315,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::sendManualMode(bool enabled)
 {
-    publishManualMode(enabled);
     publishVelocity(0.0, 0.0);
 
     ui->manualMoveButton->setText(
@@ -331,30 +325,29 @@ void MainWindow::sendManualMode(bool enabled)
             ? tr("수동 운행 모드입니다")
             : tr("키보드 또는 조작 화면으로 로봇을 직접 이동"));
 
-    // Manual driving and ROS commands must work even without the HTTP server.
-    // Only notify the web HMI when the periodic connection check says the
-    // server is currently reachable.
-    if (!serverConnected)
-        return;
-
     QNetworkRequest request(
-        QUrl(kServerBaseUrl + QStringLiteral("/api/command")));
+        QUrl(kServerBaseUrl + QStringLiteral("/api/manual-mode")));
     request.setHeader(QNetworkRequest::ContentTypeHeader,
                       QStringLiteral("application/json"));
     request.setAttribute(QNetworkRequest::Http2AllowedAttribute, false);
     request.setTransferTimeout(5000);
 
-    // Update the local UI immediately. The request only notifies the server so
-    // the web HMI can be locked; its response never controls the button state.
-    const QJsonObject command{
-        {QStringLiteral("command"), QStringLiteral("stop")},
-        {QStringLiteral("manual_mode"), enabled}};
+    // The server stores this state for the Web HMI and publishes the
+    // /manual_mode ROS topic for the robot.
+    const QJsonObject command{{QStringLiteral("manual_mode"), enabled}};
     const QByteArray body =
         QJsonDocument(command).toJson(QJsonDocument::Compact);
     request.setHeader(QNetworkRequest::ContentLengthHeader, body.size());
     QNetworkReply *reply = networkManager->post(request, body);
 
-    connect(reply, &QNetworkReply::finished, reply, &QObject::deleteLater);
+    connect(reply, &QNetworkReply::finished, this, [this, reply] {
+        const int statusCode =
+            reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        const bool succeeded = reply->error() == QNetworkReply::NoError
+                               && statusCode >= 200 && statusCode < 300;
+        setServerConnected(succeeded);
+        reply->deleteLater();
+    });
 }
 
 void MainWindow::checkServerConnection()
@@ -406,45 +399,6 @@ void MainWindow::setServerConnected(bool connected)
             : QStringLiteral("background-color: #FFF7E8;"
                              "border: 1px solid #F1D39A;"
                              "border-radius: 16px;"));
-}
-
-void MainWindow::publishManualMode(bool enabled)
-{
-    const QString ros2 =
-        QStringLiteral("/opt/ros/jazzy/bin/ros2");
-    const QString topic = qEnvironmentVariable(
-        "MANUAL_MODE_TOPIC", QStringLiteral("/manual_mode"));
-    const QString message = enabled
-                                ? QStringLiteral("{data: true}")
-                                : QStringLiteral("{data: false}");
-
-    if (manualModePublisher->state() != QProcess::NotRunning) {
-        manualModePublisher->terminate();
-        if (!manualModePublisher->waitForFinished(500))
-            manualModePublisher->kill();
-    }
-
-    if (enabled) {
-        // Keep publishing while manual mode is active so a Raspberry Pi that
-        // joins later also receives the stop/manual-mode state.
-        manualModePublisher->start(
-            ros2,
-            {QStringLiteral("topic"), QStringLiteral("pub"),
-             QStringLiteral("--rate"), QStringLiteral("2"),
-             topic, QStringLiteral("std_msgs/msg/Bool"), message});
-        return;
-    }
-
-    // Publish the inactive state once, using a short-lived child process.
-    auto *inactivePublisher = new QProcess(this);
-    connect(inactivePublisher,
-            qOverload<int, QProcess::ExitStatus>(&QProcess::finished),
-            inactivePublisher, &QObject::deleteLater);
-    inactivePublisher->start(
-        ros2,
-        {QStringLiteral("topic"), QStringLiteral("pub"),
-         QStringLiteral("--once"),
-         topic, QStringLiteral("std_msgs/msg/Bool"), message});
 }
 
 void MainWindow::publishVelocity(double linearX, double angularZ)

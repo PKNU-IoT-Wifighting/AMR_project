@@ -1,4 +1,5 @@
-edb47ff1d701cd85da380fdf5dc5adca  opt/ManagerScreen/bin/ManagerScreen
+bc447b5d8c4823c7fd2a0a09cbce11c3  opt/ManagerScreen/bin/ManagerScreen
+868c30fc836cb495748df573786b8faf  opt/ManagerScreen/bin/cmd_vel_reader.py
 169e4a5c68a291b264bf6f9474f20a13  opt/ManagerScreen/bin/manager-screen
 f06369a0b69207de0ccf6355e1b3a6e7  opt/ManagerScreen/bin/qt.conf
 d785d5b947326a413edc4b58b6419289  opt/ManagerScreen/bin/ros_status_monitor.py

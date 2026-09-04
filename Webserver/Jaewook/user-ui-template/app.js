@@ -7,6 +7,13 @@ const destinations = new Map([
     ["elevator", { id: "elevator", name: "엘리베이터 앞", icon: "🛗" }]
 ]);
 
+class RobotBusyError extends Error {
+    constructor() {
+        super("robot_busy");
+        this.name = "RobotBusyError";
+    }
+}
+
 const state = {
     selectedDestination: null,
     isStatusReady: false,
@@ -16,6 +23,8 @@ const state = {
     isSendingCommand: false,
     isControlSending: false,
     isConfirmationOpen: false,
+    isRobotBusy: false,
+    isBusyDialogOpen: false,
     commandMessage: "",
     commandSucceeded: false,
     controlError: ""
@@ -44,6 +53,9 @@ const elements = {
     confirmationDestination: document.querySelector("#confirmation-destination"),
     confirmationCancel: document.querySelector("#confirmation-cancel"),
     confirmationStart: document.querySelector("#confirmation-start"),
+    busyBackdrop: document.querySelector("#busy-backdrop"),
+    busyDialog: document.querySelector("#busy-dialog"),
+    busyConfirm: document.querySelector("#busy-confirm"),
     manualOverlay: document.querySelector("#manual-control-overlay")
 };
 
@@ -112,11 +124,30 @@ function render() {
     elements.confirmationStart.disabled = state.isManualMode || state.isSendingCommand;
     elements.confirmationStart.textContent = state.isSendingCommand ? "서버에 전달 중..." : "안내 시작";
 
+    elements.busyBackdrop.hidden = !state.isBusyDialogOpen || state.isManualMode;
+
     elements.manualOverlay.hidden = !state.isManualMode;
+}
+
+function openBusyDialog() {
+    state.isConfirmationOpen = false;
+    state.isBusyDialogOpen = true;
+    render();
+    elements.busyConfirm.focus();
+}
+
+function closeBusyDialog() {
+    state.isBusyDialogOpen = false;
+    render();
 }
 
 function selectDestination(destinationId) {
     if (!state.isStatusReady || state.isManualMode) {
+        return;
+    }
+
+    if (state.isRobotBusy && !state.isGuiding) {
+        openBusyDialog();
         return;
     }
 
@@ -127,6 +158,11 @@ function selectDestination(destinationId) {
 
 function openConfirmation() {
     if (!state.isStatusReady || state.isManualMode || !state.selectedDestination || state.isSendingCommand) {
+        return;
+    }
+
+    if (state.isRobotBusy && !state.isGuiding) {
+        openBusyDialog();
         return;
     }
 
@@ -151,6 +187,10 @@ async function postNavigation(destination) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ destination })
     });
+
+    if (response.status === 409) {
+        throw new RobotBusyError();
+    }
 
     if (!response.ok) {
         throw new Error(response.status >= 500
@@ -178,6 +218,11 @@ async function startGuidance() {
         return;
     }
 
+    if (state.isRobotBusy && !state.isGuiding) {
+        openBusyDialog();
+        return;
+    }
+
     state.isSendingCommand = true;
     render();
 
@@ -190,8 +235,15 @@ async function startGuidance() {
         state.commandMessage = "안내 명령을 서버에 전달했습니다.";
         state.controlError = "";
     } catch (error) {
-        state.commandSucceeded = false;
-        state.commandMessage = error instanceof Error ? error.message : "서버와의 접속을 확인해 주세요.";
+        if (error instanceof RobotBusyError) {
+            state.isRobotBusy = true;
+            state.isBusyDialogOpen = true;
+            state.isConfirmationOpen = false;
+            state.commandMessage = "";
+        } else {
+            state.commandSucceeded = false;
+            state.commandMessage = error instanceof Error ? error.message : "서버와의 접속을 확인해 주세요.";
+        }
     } finally {
         state.isSendingCommand = false;
         render();
@@ -247,18 +299,27 @@ async function refreshStatus() {
 
         const status = await response.json();
         const isManualMode = status.manual_mode === true;
-        let changed = !state.isStatusReady || isManualMode !== state.isManualMode;
+        const serverStatus = [status.navigationStatus, status.navigation_status, status.status]
+            .find(value => typeof value === "string")?.toLowerCase() || "";
+        const isRobotBusy = ["sending", "moving", "canceling"].includes(serverStatus);
+        let changed = !state.isStatusReady
+            || isManualMode !== state.isManualMode
+            || isRobotBusy !== state.isRobotBusy;
 
         state.isStatusReady = true;
         state.isManualMode = isManualMode;
+        state.isRobotBusy = isRobotBusy;
         if (isManualMode && state.isConfirmationOpen) {
             state.isConfirmationOpen = false;
             changed = true;
         }
 
-        const hasArrived = [status.navigationStatus, status.navigation_status, status.status]
-            .some(value => typeof value === "string" && value.toLowerCase() === "arrived")
-            || status.arrived === true;
+        if (!isRobotBusy && state.isBusyDialogOpen) {
+            state.isBusyDialogOpen = false;
+            changed = true;
+        }
+
+        const hasArrived = serverStatus === "arrived" || status.arrived === true;
 
         if (state.isGuiding && !state.hasArrived && hasArrived) {
             state.hasArrived = true;
@@ -285,9 +346,16 @@ elements.confirmationStart.addEventListener("click", startGuidance);
 elements.secondaryButton.addEventListener("click", handleSecondaryAction);
 elements.confirmationBackdrop.addEventListener("click", closeConfirmation);
 elements.confirmationDialog.addEventListener("click", event => event.stopPropagation());
+elements.busyConfirm.addEventListener("click", closeBusyDialog);
+elements.busyBackdrop.addEventListener("click", closeBusyDialog);
+elements.busyDialog.addEventListener("click", event => event.stopPropagation());
 document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && state.isConfirmationOpen && !state.isManualMode) {
-        closeConfirmation();
+    if (event.key === "Escape" && !state.isManualMode) {
+        if (state.isBusyDialogOpen) {
+            closeBusyDialog();
+        } else if (state.isConfirmationOpen) {
+            closeConfirmation();
+        }
     }
 });
 

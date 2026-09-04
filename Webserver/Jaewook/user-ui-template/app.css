@@ -385,11 +385,33 @@ button {
     color: var(--blue);
 }
 
+.busy-dialog {
+    text-align: center;
+}
+
+.busy-dialog .busy-icon {
+    margin-right: auto;
+    margin-left: auto;
+    color: #b32939;
+    background: #fff0f2;
+}
+
+.busy-description {
+    margin: 14px 0 0;
+    color: var(--muted);
+    line-height: 1.6;
+    word-break: keep-all;
+}
+
 .confirmation-actions {
     display: grid;
     grid-template-columns: 1fr 1.25fr;
     gap: 10px;
     margin-top: 24px;
+}
+
+.confirmation-actions.single-action {
+    grid-template-columns: 1fr;
 }
 
 .confirmation-cancel,

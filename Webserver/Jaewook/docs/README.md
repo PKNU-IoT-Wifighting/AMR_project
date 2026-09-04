@@ -9,4 +9,4 @@
 | [`TEAM_ROLES.md`](./TEAM_ROLES.md) | 팀원별 담당 업무와 협업 구조 |
 | [`ROS2_SLAM_PRACTICE.md`](./ROS2_SLAM_PRACTICE.md) | ROS 2 Jazzy SLAM·자율탐사 사전 연습 기록 |
 
-현재 서버 실행과 ROS 연동 방법은 [`../../hyunbeen/TEAMREADME.md`](../../hyunbeen/TEAMREADME.md)를 확인합니다.
+현재 서버 실행과 ROS 연동 방법은 [`../../Server/README.md`](../../Server/README.md)를 확인합니다. `hyunbeen` 관련 문서는 이전 C++ 서버의 작업 기록으로만 참고합니다.

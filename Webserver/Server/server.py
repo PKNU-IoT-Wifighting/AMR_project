@@ -277,16 +277,20 @@ class NavigationBridge(Node):
             self._distance_remaining = 0.0 if result_status == GoalStatus.STATUS_SUCCEEDED else None
             if result_status == GoalStatus.STATUS_SUCCEEDED:
                 self._status = "arrived"
+                self._destination = None
                 self._last_error = None
+                history_outcome = "arrived"
             elif result_status == GoalStatus.STATUS_CANCELED:
                 self._status = "canceled"
                 self._destination = None
+                history_outcome = "canceled"
             else:
                 self._status = "failed"
                 self._last_error = f"Nav2 종료 상태 코드: {result_status}"
+                history_outcome = "failed"
         if history_id is not None:
             try:
-                self._history_repository.finish(history_id)
+                self._history_repository.finish(history_id, history_outcome)
             except Exception as exc:
                 self.get_logger().error(f"안내 종료 이력 저장 실패: {exc}")
         self.get_logger().info(f"Navigation finished with status={result_status}")
@@ -311,7 +315,7 @@ class NavigationBridge(Node):
             self._last_error = message
         if history_id is not None:
             try:
-                self._history_repository.finish(history_id)
+                self._history_repository.finish(history_id, "failed")
             except Exception as exc:
                 self.get_logger().error(f"안내 종료 이력 저장 실패: {exc}")
         self.get_logger().error(message)
@@ -372,6 +376,10 @@ def create_app(
     @app.get("/api/status")
     def get_status() -> dict[str, Any]:
         return bridge().status_snapshot()
+
+    @app.get("/api/history")
+    def get_history() -> dict[str, Any]:
+        return {"records": history_repository.list_recent()}
 
     @app.post("/api/command")
     def post_command(request: CommandRequest) -> dict[str, Any]:

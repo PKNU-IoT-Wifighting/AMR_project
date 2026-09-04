@@ -47,10 +47,21 @@ class NavigationHistoryRepository:
                     destination_id TEXT NOT NULL,
                     destination_name TEXT NOT NULL,
                     started_at TEXT NOT NULL,
-                    ended_at TEXT
+                    ended_at TEXT,
+                    outcome TEXT
                 )
                 """
             )
+            columns = {
+                row[1]
+                for row in connection.execute(
+                    "PRAGMA table_info(navigation_history)"
+                ).fetchall()
+            }
+            if "outcome" not in columns:
+                connection.execute(
+                    "ALTER TABLE navigation_history ADD COLUMN outcome TEXT"
+                )
             connection.execute(
                 """
                 CREATE INDEX IF NOT EXISTS idx_navigation_history_started_at
@@ -95,13 +106,30 @@ class NavigationHistoryRepository:
                 raise RuntimeError("안내 이력 ID를 생성하지 못했습니다.")
             return cursor.lastrowid
 
-    def finish(self, history_id: int) -> None:
+    def finish(self, history_id: int, outcome: str) -> None:
         with self._connect() as connection:
             connection.execute(
                 """
                 UPDATE navigation_history
-                SET ended_at = ?
+                SET ended_at = ?, outcome = ?
                 WHERE id = ? AND ended_at IS NULL
                 """,
-                (korea_now_iso(), history_id),
+                (korea_now_iso(), outcome, history_id),
             )
+
+    def list_recent(self, limit: int = 200) -> list[dict[str, object]]:
+        """Return the newest navigation sessions first."""
+        safe_limit = max(1, min(limit, 500))
+        with self._connect() as connection:
+            connection.row_factory = sqlite3.Row
+            rows = connection.execute(
+                """
+                SELECT id, destination_id, destination_name, started_at, ended_at,
+                       outcome
+                FROM navigation_history
+                ORDER BY id DESC
+                LIMIT ?
+                """,
+                (safe_limit,),
+            ).fetchall()
+        return [dict(row) for row in rows]

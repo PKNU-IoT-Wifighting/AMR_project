@@ -4,16 +4,25 @@
 #include <QImage>
 #include <QHash>
 #include <QCoreApplication>
+#include <QDateTime>
+#include <QFrame>
+#include <QHeaderView>
+#include <QHBoxLayout>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QKeyEvent>
+#include <QLabel>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QProcess>
+#include <QPushButton>
 #include <QResizeEvent>
+#include <QTableWidget>
 #include <QTimer>
+#include <QVBoxLayout>
 
 namespace {
 constexpr int kVideoWidth = 640;
@@ -34,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
     , networkManager(new QNetworkAccessManager(this))
 {
     ui->setupUi(this);
+
+    createHistoryPage();
+    connect(ui->logViewButton, &QPushButton::clicked,
+            this, &MainWindow::showHistoryPage);
 
     // Keep the most important state first: robot, speed, then destination.
     ui->robotStatusPanelLayout->removeWidget(ui->robotConnectionStatusCard);
@@ -115,6 +128,7 @@ void MainWindow::startRobotStatusMonitor()
     ui->robotConnectionValueLabel->setStyleSheet(
         QStringLiteral("color: #A56816;"));
     ui->destinationValueLabel->setText(tr("선택 안 됨"));
+    ui->speedValueLabel->setText(tr("0.00 m/s"));
 
     robotStatusMonitor->setProcessChannelMode(QProcess::SeparateChannels);
     connect(robotStatusMonitor, &QProcess::readyReadStandardOutput,
@@ -125,6 +139,7 @@ void MainWindow::startRobotStatusMonitor()
                 ui->robotConnectionValueLabel->setText(tr("연결 안 됨"));
                 ui->robotConnectionValueLabel->setStyleSheet(
                     QStringLiteral("color: #A56816;"));
+                ui->speedValueLabel->setText(tr("0.00 m/s"));
             });
 
     const QString helper = QCoreApplication::applicationDirPath()
@@ -156,6 +171,12 @@ void MainWindow::readRobotStatusEvents()
             setDestination(
                 event.value(QStringLiteral("destination")).toString());
         }
+
+        const QJsonValue speed = event.value(QStringLiteral("speed_mps"));
+        if (speed.isDouble()) {
+            ui->speedValueLabel->setText(
+                tr("%1 m/s").arg(speed.toDouble(), 0, 'f', 2));
+        }
     }
 }
 
@@ -170,6 +191,292 @@ void MainWindow::setDestination(const QString &destinationId)
         destinationNames.value(
             destinationId,
             destinationId.isEmpty() ? tr("선택 안 됨") : destinationId));
+}
+
+void MainWindow::createHistoryPage()
+{
+    historyPage = new QWidget(ui->centralwidget);
+    historyPage->setObjectName(QStringLiteral("historyPage"));
+    historyPage->setGeometry(ui->centralwidget->rect());
+    historyPage->setStyleSheet(QStringLiteral(R"(
+QWidget#historyPage { background-color: #F3F6FA; color: #172033; }
+QFrame#historyHero { border: none; border-radius: 20px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #17396F, stop:0.58 #245EC7, stop:1 #3989E8); }
+QLabel#historyEyebrow { font-size: 12px; font-weight: 700; color: #BFD7FF; letter-spacing: 1px; }
+QLabel#historyTitle { font-size: 28px; font-weight: 700; color: #FFFFFF; }
+QLabel#historySubtitle { font-size: 13px; color: #D9E7FF; }
+QLabel#historySummary { font-size: 13px; font-weight: 600; color: #778198; }
+QLabel#historyEmpty { font-size: 16px; font-weight: 600; color: #778198; }
+QPushButton#historyBackButton, QPushButton#historyRefreshButton {
+    min-height: 40px; max-height: 40px; padding: 0 18px;
+    border-radius: 10px; font-size: 14px; font-weight: 700;
+}
+QPushButton#historyBackButton { background: rgba(255,255,255,0.14); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.32); }
+QPushButton#historyBackButton:hover { background: rgba(255,255,255,0.24); }
+QPushButton#historyRefreshButton { background: #FFFFFF; color: #245EC7; border: 1px solid #FFFFFF; }
+QPushButton#historyRefreshButton:hover { background: #EAF2FF; }
+QFrame.historyStatCard { background: #FFFFFF; border: 1px solid #E0E7F1; border-radius: 15px; }
+QLabel.historyStatIcon { border-radius: 18px; min-width: 36px; max-width: 36px;
+    min-height: 36px; max-height: 36px; font-size: 17px; qproperty-alignment: AlignCenter; }
+QLabel.historyStatLabel { color: #8590A4; font-size: 12px; font-weight: 600; }
+QLabel.historyStatValue { color: #1D2940; font-size: 21px; font-weight: 700; }
+QFrame#historyTableCard { background: #FFFFFF; border: 1px solid #E0E7F1; border-radius: 17px; }
+QLabel#historyListTitle { color: #1D2940; font-size: 17px; font-weight: 700; }
+QTableWidget { background: #FFFFFF; alternate-background-color: #F8FAFD;
+    border: none; gridline-color: #E8EDF4;
+    selection-background-color: #E8F1FF; selection-color: #172033; font-size: 14px; }
+QHeaderView::section { background: #EFF4FA; color: #59657A; border: none;
+    border-bottom: 1px solid #DCE5F1; padding: 12px 10px; font-size: 13px; font-weight: 700; }
+QTableWidget::item { padding: 9px; border-bottom: 1px solid #EEF2F7; }
+)"));
+
+    auto *root = new QVBoxLayout(historyPage);
+    root->setContentsMargins(34, 28, 34, 30);
+    root->setSpacing(18);
+
+    auto *hero = new QFrame;
+    hero->setObjectName(QStringLiteral("historyHero"));
+    hero->setMinimumHeight(132);
+    auto *header = new QHBoxLayout(hero);
+    header->setContentsMargins(26, 20, 22, 20);
+    auto *titles = new QVBoxLayout;
+    auto *eyebrow = new QLabel(tr("GUIDEROBOT  ·  ACTIVITY"));
+    eyebrow->setObjectName(QStringLiteral("historyEyebrow"));
+    auto *title = new QLabel(tr("운행 기록"));
+    title->setObjectName(QStringLiteral("historyTitle"));
+    auto *subtitle = new QLabel(tr("안내 로봇의 최근 목적지 운행 내역을 확인합니다."));
+    subtitle->setObjectName(QStringLiteral("historySubtitle"));
+    titles->addWidget(eyebrow);
+    titles->addWidget(title);
+    titles->addWidget(subtitle);
+    header->addLayout(titles);
+    header->addStretch();
+
+    auto *refreshButton = new QPushButton(tr("↻  새로고침"));
+    refreshButton->setObjectName(QStringLiteral("historyRefreshButton"));
+    refreshButton->setCursor(Qt::PointingHandCursor);
+    auto *backButton = new QPushButton(tr("←  관제 화면"));
+    backButton->setObjectName(QStringLiteral("historyBackButton"));
+    backButton->setCursor(Qt::PointingHandCursor);
+    header->addWidget(refreshButton);
+    header->addWidget(backButton);
+    root->addWidget(hero);
+
+    auto createStatCard = [this](const QString &icon, const QString &caption,
+                                 const QString &iconStyle, QLabel **valueLabel) {
+        auto *card = new QFrame;
+        card->setProperty("class", "historyStatCard");
+        card->setMinimumHeight(82);
+        auto *layout = new QHBoxLayout(card);
+        layout->setContentsMargins(16, 12, 16, 12);
+        layout->setSpacing(12);
+        auto *iconLabel = new QLabel(icon);
+        iconLabel->setProperty("class", "historyStatIcon");
+        iconLabel->setStyleSheet(iconStyle);
+        auto *text = new QVBoxLayout;
+        text->setSpacing(1);
+        auto *captionLabel = new QLabel(caption);
+        captionLabel->setProperty("class", "historyStatLabel");
+        *valueLabel = new QLabel(tr("—"));
+        (*valueLabel)->setProperty("class", "historyStatValue");
+        text->addWidget(captionLabel);
+        text->addWidget(*valueLabel);
+        layout->addWidget(iconLabel);
+        layout->addLayout(text, 1);
+        return card;
+    };
+
+    auto *stats = new QHBoxLayout;
+    stats->setSpacing(12);
+    stats->addWidget(createStatCard(tr("▤"), tr("전체 기록"),
+        QStringLiteral("background:#EAF2FF;color:#245EC7;"), &historyTotalValue));
+    stats->addWidget(createStatCard(tr("✓"), tr("목적지 안내 완료"),
+        QStringLiteral("background:#E9F8F1;color:#247A5B;"), &historyArrivedValue));
+    stats->addWidget(createStatCard(tr("■"), tr("안내 취소"),
+        QStringLiteral("background:#FFF0E8;color:#B45B25;"), &historyCanceledValue));
+    stats->addWidget(createStatCard(tr("!"), tr("안내 실패"),
+        QStringLiteral("background:#FDEBEC;color:#B43D48;"), &historyFailedValue));
+    stats->addWidget(createStatCard(tr("⌖"), tr("자주 찾은 목적지"),
+        QStringLiteral("background:#F2EDFF;color:#7252B8;"), &historyPopularValue));
+    root->addLayout(stats);
+
+    historySummaryLabel = new QLabel(tr("기록을 불러오는 중입니다."));
+    historySummaryLabel->setObjectName(QStringLiteral("historySummary"));
+
+    auto *tableCard = new QFrame;
+    tableCard->setObjectName(QStringLiteral("historyTableCard"));
+    auto *tableLayout = new QVBoxLayout(tableCard);
+    tableLayout->setContentsMargins(18, 15, 18, 16);
+    tableLayout->setSpacing(10);
+    auto *listHeader = new QHBoxLayout;
+    auto *listTitle = new QLabel(tr("최근 안내 내역"));
+    listTitle->setObjectName(QStringLiteral("historyListTitle"));
+    listHeader->addWidget(listTitle);
+    listHeader->addStretch();
+    listHeader->addWidget(historySummaryLabel);
+    tableLayout->addLayout(listHeader);
+
+    historyTable = new QTableWidget;
+    historyTable->setColumnCount(5);
+    historyTable->setHorizontalHeaderLabels(
+        {tr("목적지"), tr("출발 시각"), tr("종료 시각"), tr("소요 시간"), tr("상태")});
+    historyTable->setAlternatingRowColors(true);
+    historyTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    historyTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    historyTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    historyTable->setShowGrid(false);
+    historyTable->verticalHeader()->hide();
+    historyTable->verticalHeader()->setDefaultSectionSize(58);
+    historyTable->verticalHeader()->setMinimumSectionSize(58);
+    historyTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    historyTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    historyTable->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
+    historyTable->horizontalHeader()->resizeSection(4, 180);
+    tableLayout->addWidget(historyTable, 1);
+
+    historyEmptyLabel = new QLabel;
+    historyEmptyLabel->setObjectName(QStringLiteral("historyEmpty"));
+    historyEmptyLabel->setAlignment(Qt::AlignCenter);
+    historyEmptyLabel->hide();
+    tableLayout->addWidget(historyEmptyLabel, 1);
+    root->addWidget(tableCard, 1);
+
+    connect(backButton, &QPushButton::clicked, this, &MainWindow::hideHistoryPage);
+    connect(refreshButton, &QPushButton::clicked, this, &MainWindow::loadHistory);
+    historyPage->hide();
+}
+
+void MainWindow::showHistoryPage()
+{
+    historyPage->setGeometry(ui->centralwidget->rect());
+    historyPage->show();
+    historyPage->raise();
+    loadHistory();
+}
+
+void MainWindow::hideHistoryPage()
+{
+    historyPage->hide();
+}
+
+void MainWindow::loadHistory()
+{
+    historyTable->hide();
+    historyEmptyLabel->setText(tr("기록을 불러오는 중입니다..."));
+    historyEmptyLabel->show();
+    historySummaryLabel->setText(tr("서버의 운행 기록을 확인하고 있습니다."));
+
+    QNetworkRequest request(QUrl(kServerBaseUrl + QStringLiteral("/api/history")));
+    request.setTransferTimeout(5000);
+    QNetworkReply *reply = networkManager->get(request);
+    connect(reply, &QNetworkReply::finished, this, [this, reply] {
+        QJsonParseError error;
+        const QJsonDocument document = QJsonDocument::fromJson(reply->readAll(), &error);
+        const bool succeeded = reply->error() == QNetworkReply::NoError
+                               && error.error == QJsonParseError::NoError
+                               && document.isObject()
+                               && document.object().value(QStringLiteral("records")).isArray();
+        if (succeeded) {
+            populateHistory(document.object().value(QStringLiteral("records")).toArray());
+        } else {
+            historyTable->hide();
+            historyEmptyLabel->setText(tr("운행 기록을 불러오지 못했습니다.\n서버 연결을 확인한 뒤 새로고침해 주세요."));
+            historyEmptyLabel->show();
+            historySummaryLabel->setText(tr("기록 조회 실패"));
+        }
+        reply->deleteLater();
+    });
+}
+
+void MainWindow::populateHistory(const QJsonArray &records)
+{
+    historyTable->setRowCount(records.size());
+    int arrivedCount = 0;
+    int canceledCount = 0;
+    int failedCount = 0;
+    QHash<QString, int> destinationCounts;
+    for (qsizetype row = 0; row < records.size(); ++row) {
+        const QJsonObject record = records.at(row).toObject();
+        const QDateTime started = QDateTime::fromString(
+            record.value(QStringLiteral("started_at")).toString(), Qt::ISODateWithMs);
+        const QString endedText = record.value(QStringLiteral("ended_at")).toString();
+        const QDateTime ended = QDateTime::fromString(endedText, Qt::ISODateWithMs);
+        const bool inProgress = endedText.isEmpty();
+        const QString outcome = record.value(QStringLiteral("outcome")).toString();
+        arrivedCount += outcome == QStringLiteral("arrived") ? 1 : 0;
+        canceledCount += outcome == QStringLiteral("canceled") ? 1 : 0;
+        failedCount += outcome == QStringLiteral("failed") ? 1 : 0;
+        const QString destinationName =
+            record.value(QStringLiteral("destination_name")).toString();
+        ++destinationCounts[destinationName];
+        const qint64 seconds = inProgress ? 0 : started.secsTo(ended);
+        const QString duration = inProgress
+            ? tr("—")
+            : seconds >= 3600
+                ? tr("%1시간 %2분").arg(seconds / 3600).arg((seconds % 3600) / 60)
+                : tr("%1분 %2초").arg(seconds / 60).arg(seconds % 60);
+        const QStringList values{
+            destinationName,
+            started.isValid() ? started.toString(QStringLiteral("yyyy.MM.dd  HH:mm:ss")) : tr("—"),
+            ended.isValid() ? ended.toString(QStringLiteral("yyyy.MM.dd  HH:mm:ss")) : tr("—"),
+            duration};
+        for (int column = 0; column < values.size(); ++column) {
+            auto *item = new QTableWidgetItem(values.at(column));
+            item->setTextAlignment(column == 0 ? Qt::AlignLeft | Qt::AlignVCenter
+                                               : Qt::AlignCenter);
+            historyTable->setItem(static_cast<int>(row), column, item);
+        }
+        auto *statusCell = new QWidget;
+        auto *statusLayout = new QHBoxLayout(statusCell);
+        statusLayout->setContentsMargins(8, 5, 8, 5);
+        QString statusText;
+        QString statusStyle;
+        if (inProgress) {
+            statusText = tr("●  운행 중");
+            statusStyle = QStringLiteral("background:#FFF2D9;color:#9A5A10;border-radius:12px;padding:3px 10px;font-size:13px;font-weight:700;");
+        } else if (outcome == QStringLiteral("arrived")) {
+            statusText = tr("✓  목적지 안내 완료");
+            statusStyle = QStringLiteral("background:#E8F7EF;color:#247A5B;border-radius:12px;padding:3px 10px;font-size:13px;font-weight:700;");
+        } else if (outcome == QStringLiteral("canceled")) {
+            statusText = tr("■  안내 취소");
+            statusStyle = QStringLiteral("background:#FFF0E8;color:#B45B25;border-radius:12px;padding:3px 10px;font-size:13px;font-weight:700;");
+        } else if (outcome == QStringLiteral("failed")) {
+            statusText = tr("!  안내 실패");
+            statusStyle = QStringLiteral("background:#FDEBEC;color:#B43D48;border-radius:12px;padding:3px 10px;font-size:13px;font-weight:700;");
+        } else {
+            statusText = tr("종료");
+            statusStyle = QStringLiteral("background:#EEF1F5;color:#657186;border-radius:12px;padding:3px 10px;font-size:13px;font-weight:700;");
+        }
+        auto *badge = new QLabel(statusText);
+        badge->setAlignment(Qt::AlignCenter);
+        badge->setStyleSheet(statusStyle);
+        statusLayout->addWidget(badge);
+        historyTable->setCellWidget(static_cast<int>(row), 4, statusCell);
+    }
+
+    historySummaryLabel->setText(tr("최근 운행 기록 %1건 · 최신순").arg(records.size()));
+    QString popular = tr("—");
+    int popularCount = 0;
+    for (auto it = destinationCounts.cbegin(); it != destinationCounts.cend(); ++it) {
+        if (it.value() > popularCount) {
+            popular = it.key();
+            popularCount = it.value();
+        }
+    }
+    historyTotalValue->setText(QString::number(records.size()));
+    historyArrivedValue->setText(QString::number(arrivedCount));
+    historyCanceledValue->setText(QString::number(canceledCount));
+    historyFailedValue->setText(QString::number(failedCount));
+    if (records.isEmpty()) {
+        historyPopularValue->setText(tr("—"));
+    } else {
+        const int percentage = qRound(100.0 * popularCount / records.size());
+        historyPopularValue->setText(tr("%1  (%2%)").arg(popular).arg(percentage));
+    }
+    const bool empty = records.isEmpty();
+    historyTable->setVisible(!empty);
+    historyEmptyLabel->setText(tr("아직 저장된 운행 기록이 없습니다."));
+    historyEmptyLabel->setVisible(empty);
 }
 
 void MainWindow::startCameraStream()
@@ -260,13 +567,16 @@ void MainWindow::setCameraStatus(const QString &message, bool streaming)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
+    if (historyPage)
+        historyPage->setGeometry(ui->centralwidget->rect());
     if (!currentFrame.isNull())
         updateCameraFrame();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if (!ui->manualMoveButton->isChecked()) {
+    if ((historyPage && historyPage->isVisible())
+        || !ui->manualMoveButton->isChecked()) {
         QMainWindow::keyPressEvent(event);
         return;
     }

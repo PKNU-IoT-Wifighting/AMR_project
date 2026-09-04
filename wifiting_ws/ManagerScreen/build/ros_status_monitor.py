@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Emit ROS robot connection and destination events as JSON lines."""
+"""Emit ROS robot connection, destination, and speed events as JSON lines."""
 
 import json
 
@@ -7,7 +7,7 @@ import rclpy
 from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import DurabilityPolicy, QoSProfile, ReliabilityPolicy
-from std_msgs.msg import String
+from std_msgs.msg import Float32, String
 
 
 class RobotStatusMonitor(Node):
@@ -22,6 +22,12 @@ class RobotStatusMonitor(Node):
             "/guide_robot/destination",
             self._on_destination,
             destination_qos,
+        )
+        self.create_subscription(
+            Float32,
+            "/speed_mps",
+            self._on_speed,
+            10,
         )
         self.create_timer(1.0, self._check_amr_node)
         self._check_amr_node()
@@ -38,6 +44,9 @@ class RobotStatusMonitor(Node):
 
     def _on_destination(self, message):
         self._emit({"destination": message.data})
+
+    def _on_speed(self, message):
+        self._emit({"speed_mps": float(message.data)})
 
 
 def main():

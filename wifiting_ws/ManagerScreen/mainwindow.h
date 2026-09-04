@@ -11,6 +11,10 @@ class QProcess;
 class QNetworkAccessManager;
 class QKeyEvent;
 class QResizeEvent;
+class QJsonArray;
+class QLabel;
+class QTableWidget;
+class QWidget;
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -34,6 +38,11 @@ private:
     void startRobotStatusMonitor();
     void readRobotStatusEvents();
     void setDestination(const QString &destinationId);
+    void createHistoryPage();
+    void showHistoryPage();
+    void hideHistoryPage();
+    void loadHistory();
+    void populateHistory(const QJsonArray &records);
     void checkServerConnection();
     void setServerConnected(bool connected);
     void sendManualMode(bool enabled);
@@ -46,6 +55,15 @@ private:
     QProcess *velocityPublisher;
     QProcess *robotStatusMonitor;
     QNetworkAccessManager *networkManager;
+    QWidget *historyPage = nullptr;
+    QTableWidget *historyTable = nullptr;
+    QLabel *historySummaryLabel = nullptr;
+    QLabel *historyEmptyLabel = nullptr;
+    QLabel *historyTotalValue = nullptr;
+    QLabel *historyArrivedValue = nullptr;
+    QLabel *historyCanceledValue = nullptr;
+    QLabel *historyFailedValue = nullptr;
+    QLabel *historyPopularValue = nullptr;
     QByteArray cameraBuffer;
     QPixmap currentFrame;
     bool serverConnected = false;

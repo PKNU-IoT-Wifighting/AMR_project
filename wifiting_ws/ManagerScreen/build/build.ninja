@@ -268,7 +268,7 @@ build CMakeFiles/ManagerScreen_lrelease | ${cmake_ninja_workdir}CMakeFiles/Manag
 #############################################
 # Phony custom command for CMakeFiles/ManagerScreen_autogen_timestamp_deps
 
-build CMakeFiles/ManagerScreen_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/ManagerScreen_autogen_timestamp_deps: phony /home/ubuntu/Qt/6.11.1/gcc_64/lib/libQt6Network.so.6.11.1 /home/ubuntu/Qt/6.11.1/gcc_64/libexec/moc /home/ubuntu/Qt/6.11.1/gcc_64/libexec/uic /home/ubuntu/Qt/6.11.1/gcc_64/lib/libQt6Widgets.so.6.11.1
+build CMakeFiles/ManagerScreen_autogen_timestamp_deps | ${cmake_ninja_workdir}CMakeFiles/ManagerScreen_autogen_timestamp_deps: phony /home/ubuntu/Qt/6.11.1/gcc_64/libexec/moc /home/ubuntu/Qt/6.11.1/gcc_64/lib/libQt6Network.so.6.11.1 /home/ubuntu/Qt/6.11.1/gcc_64/lib/libQt6Widgets.so.6.11.1 /home/ubuntu/Qt/6.11.1/gcc_64/libexec/uic
 
 
 #############################################

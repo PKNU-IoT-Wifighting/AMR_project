@@ -1,0 +1,11 @@
+../Core/Src/freertos.c:133:6:MX_FREERTOS_Init	8	static
+../Core/Src/freertos.c:176:6:StartDefaultTask	16	static
+../Core/Src/freertos.c:230:6:vApplicationStackOverflowHook	16	static,ignoring_inline_asm
+../Core/Src/freertos.c:327:14:compute_wheel_rps	32	static
+../Core/Src/freertos.c:364:13:set_motor	24	static
+../Core/Src/freertos.c:393:13:mpu6050_init	32	static
+../Core/Src/freertos.c:403:13:mpu6050_read	72	static
+../Core/Src/freertos.c:445:16:v_to_duty	32	static
+../Core/Src/freertos.c:492:14:wheel_pid_step	40	static
+../Core/Src/freertos.c:533:6:cmd_vel_callback	32	static
+../Core/Src/freertos.c:563:6:StartMicroROSTask	736	static

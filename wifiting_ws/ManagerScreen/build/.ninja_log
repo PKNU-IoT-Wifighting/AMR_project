@@ -1,0 +1,18 @@
+# ninja log v5
+4	2632	1788497393926526875	ManagerScreen_autogen/timestamp	7ab38708f93f1edd
+1	19	1787724442721637803	/home/ubuntu/wifiting_ws/ManagerScreen/build/ManagerScreen_ko_KR.qm	dc1a11f84f3532e3
+2633	4003	1788497395309447142	CMakeFiles/ManagerScreen.dir/main.cpp.o	7c330ec9e50d8202
+3648	3667	1787724446369469156	CMakeFiles/ManagerScreen.dir/build/.qt/rcc/qrc_ManagerScreen_translations.cpp.o	c45249e558c4b61e
+1	19	1787724442721637803	ManagerScreen_ko_KR.qm	dc1a11f84f3532e3
+3	14712	0	CMakeFiles/package.util	45b83ee61e97e1b0
+7	11	0	help	26b1588d32d273bc
+7209	7574	1788497398875742211	ManagerScreen	b708c22dfb00be51
+3963	7209	1788497398515012231	CMakeFiles/ManagerScreen.dir/mainwindow.cpp.o	e7fe84f99d028a2b
+2517	2522	1787724445224832994	/home/ubuntu/wifiting_ws/ManagerScreen/build/.qt/rcc/qrc_ManagerScreen_translations.cpp	5a807c54de22c246
+2632	3963	1788497395269249872	CMakeFiles/ManagerScreen.dir/ManagerScreen_autogen/mocs_compilation.cpp.o	52f5e8282c1fa40f
+4	2632	1788497393926526875	/home/ubuntu/wifiting_ws/ManagerScreen/build/ManagerScreen_autogen/timestamp	7ab38708f93f1edd
+4	2632	1788497393926526875	ManagerScreen_autogen/mocs_compilation.cpp	7ab38708f93f1edd
+4	2632	1788497393926526875	/home/ubuntu/wifiting_ws/ManagerScreen/build/ManagerScreen_autogen/mocs_compilation.cpp	7ab38708f93f1edd
+2	398	1788497564596722740	build.ninja	66612f4ec96604bf
+2517	2522	1787724445224832994	.qt/rcc/qrc_ManagerScreen_translations.cpp	5a807c54de22c246
+4	20615	0	CMakeFiles/package.util	45b83ee61e97e1b0

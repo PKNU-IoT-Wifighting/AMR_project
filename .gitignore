@@ -1,0 +1,31 @@
+# ROS 2 build outputs
+build/
+install/
+log/
+
+# 외부 패키지 - 직접 관리하지 않음
+src/sllidar_ros2/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# Backup
+*.bak
+*~
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+micro_ros_ws/
